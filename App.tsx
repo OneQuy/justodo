@@ -1,118 +1,80 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { SafeAreaView, StyleSheet, StatusBar } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import SetupScreen from './src/App/Screens/SetupScreen'
+import { Color_BG } from './src/App/Hooks/useTheme'
+import useAsyncHandle from './src/Common/Hooks/useAsyncHandle'
+import { SplashScreenLoader } from './src/Common/SplashScreenLoader'
+import SplashScreen from './src/Common/Components/SplashScreen'
+import { PostHogProvider } from 'posthog-react-native'
+import { PostHogKey_Production } from './Keys'
+import { GetAlternativeConfig } from './src/Common/RemoteConfig'
+import WelcomeScreen from './src/App/Screens/WelcomeScreen'
+import { GetBooleanAsync, SetBooleanAsync } from './src/Common/AsyncStorageUtils'
+import { StorageKey_ShowedWelcomeScreen } from './src/App/Constants/StorageKey'
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () => {
+  const { handled, result } = useAsyncHandle(async () => SplashScreenLoader());
+  const [showWelcomeScreen, set_showWelcomeScreen] = useState(false)
+  const didShowedWelcomeScreenRef = useRef(false)
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  const style = useMemo(() => {
+    return StyleSheet.create({
+      master: { flex: 1, backgroundColor: Color_BG }
+    })
+  }, [])
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const onPressStartWelcomeScreen = useCallback(() => {
+    SetBooleanAsync(StorageKey_ShowedWelcomeScreen, true)
+    set_showWelcomeScreen(false)
+  }, [])
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // check to show welcome screen
+
+  useEffect(() => {
+    (async () => {
+      const showedWelcomeScreen = await GetBooleanAsync(StorageKey_ShowedWelcomeScreen)
+
+      if (!showedWelcomeScreen) {
+        set_showWelcomeScreen(true)
+      }
+    })()
+  }, [])
+
+  // splash screen
+
+  if (!result)
+    return <SplashScreen />
+
+  // welcome screen
+
+  if (showWelcomeScreen && !result.subscribedDataOrUndefined) {
+    didShowedWelcomeScreenRef.current = true
+
+    return (
+      <SafeAreaView style={style.master}>
+        <StatusBar backgroundColor={Color_BG} barStyle={'light-content'} />
+        <WelcomeScreen onPressStart={onPressStartWelcomeScreen} />
+      </SafeAreaView>
+    )
+  }
+
+  // main app render
+
+  const postHogAutocapture = GetAlternativeConfig('postHogAutoCapture', false)
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+    <PostHogProvider apiKey={PostHogKey_Production} autocapture={postHogAutocapture}>
+      <SafeAreaView style={style.master}>
+        {/* status bar */}
+        <StatusBar backgroundColor={Color_BG} barStyle={'light-content'} />
+
+        {/* main UI app */}
+        <SetupScreen
+          shouldShowPaywallFirstTime={didShowedWelcomeScreenRef.current && !result.subscribedDataOrUndefined}
+        />
+      </SafeAreaView>
+    </PostHogProvider>
+  )
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+export default App

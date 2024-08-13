@@ -1,0 +1,88 @@
+kiểm tra last noti:
+
+- rà & check pushIdx số lớn nhất là bao nhiêu
+- hoặc dựa vào pushIdx của noti có word":"Congratulations!", "mode":"unknown của remind push
+
+=========================================
+
+alert_priority:
+
+- await HandleAlertUpdateAppAsync(remoteConfig) // alert_priority_1 (doc)
+=> splash screen, reload app config
+
+- alert_priority_fetch_error_user_newly_install (doc)
+=> splash screen
+
+- alert_priority_set_start_using_app (doc)
+=> splash screen
+
+- alert_priority_whats_new (doc)
+=> first useEffect
+
+alert not priority (after alerts above):
++ Alert.alert('Wohoo!', texts.purchase_success) // alert whenever purchase success or FORCE SET PREMIUM AFTER SPLASH-SCREEN
+
+=========================================
+
+remote config:
+
+redirectService?: string
+Microsoft Translation=Lingvanex Translation|Systran Translation=Google Translation
+(
+    'Google Translation' |
+    'Microsoft Translation' |
+    'Lingvanex Translation' |
+    'Systran Translation' |
+    'Devisty Translation'
+)
+
+=========================================
+
+alternativeValue:
+
+onequy app json firebase url
+- onequyApps
+
+- trialDays (10)
+- postHogAutoCapture (false)
+- payWallWaitInSec (3)
+- setToShowPayWallCount (3)
+- twitterUrl (https://x.com/vocaby_app)
+- twitterOneQuyUrl (https://x.com/onequy)
+
+- maxDaysToPushAndroid (default 10 days)
+- maxDaysToPushiOS (default 10 days)
+
+- limitPushsAndroid (default 64 pushs)
+- limitPushsiOS (default 64 pushs)
+
+key urls
+systranUrl (https://api-translate.systran.net/translation/text/translate?key=@KEY&target=@TO&source=@FROM)
+microsoftUrl (https://api.cognitive.microsofttranslator.com)
+microsoftApiVer ("3.0")
+deepUrl (https://deep-translate1.p.rapidapi.com/language/translate/v2)
+deepHostUrl (deep-translate1.p.rapidapi.com)
+lingvanexUrl (https://api-b2b.backenster.com/b1/api/v3/translate)
+devistyUrl (https://text-translator2.p.rapidapi.com/translate)
+devistyHostUrl (text-translator2.p.rapidapi.com)
+
+key apis
+- microsoft
+- systran
+- lingvanex
+- deep
+- devisty
+
+word data file url pattern (default: 'https://firebasestorage.googleapis.com/v0/b/vocanoti.appspot.com/o/words%2Findex-#.json?alt=media&token=@')
+- dataFileUrlPattern
+
+word data file tokens
+- dataFileTokenIdx# (dataFileTokenIdx0 for index_0.json on firebase level 1 in app, dataFileTokenIdx1 for index_1.json on firebase level 2 in app,...)
+
+=========================================
+
+cheat:
+
+1. About > title 'Check out my apps': tap 20 times for set dev persistence.
+1. About > title 'Rate': reset Pro
+
