@@ -1,16 +1,16 @@
 import { SafeAreaView, StyleSheet, StatusBar } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import SetupScreen from './src/App/Screens/SetupScreen'
 import { Color_BG } from './src/App/Hooks/useTheme'
 import useAsyncHandle from './src/Common/Hooks/useAsyncHandle'
 import { SplashScreenLoader } from './src/Common/SplashScreenLoader'
 import SplashScreen from './src/Common/Components/SplashScreen'
 import { PostHogProvider } from 'posthog-react-native'
-import { PostHogKey_Production } from './Keys'
 import { GetAlternativeConfig } from './src/Common/RemoteConfig'
-import WelcomeScreen from './src/App/Screens/WelcomeScreen'
 import { GetBooleanAsync, SetBooleanAsync } from './src/Common/AsyncStorageUtils'
 import { StorageKey_ShowedWelcomeScreen } from './src/App/Constants/StorageKey'
+import WelcomeScreen from './src/App/Screens/WelcomeScreen'
+import { PostHogKey_Production } from './Keys'
+import HomeScreen from './src/App/Screens/HomeScreen'
 
 const App = () => {
   const { handled, result } = useAsyncHandle(async () => SplashScreenLoader());
@@ -69,7 +69,7 @@ const App = () => {
         <StatusBar backgroundColor={Color_BG} barStyle={'light-content'} />
 
         {/* main UI app */}
-        <SetupScreen
+        <HomeScreen
           shouldShowPaywallFirstTime={didShowedWelcomeScreenRef.current && !result.subscribedDataOrUndefined}
         />
       </SafeAreaView>
