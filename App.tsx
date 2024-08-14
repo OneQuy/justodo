@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, StatusBar } from 'react-native'
+import { SafeAreaView, StyleSheet, StatusBar, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Color_BG } from './src/App/Hooks/useTheme'
 import useAsyncHandle from './src/Common/Hooks/useAsyncHandle'
@@ -19,7 +19,7 @@ const App = () => {
 
   const style = useMemo(() => {
     return StyleSheet.create({
-      master: { flex: 1, backgroundColor: Color_BG }
+      master: { flex: 1 }
     })
   }, [])
 
@@ -64,15 +64,13 @@ const App = () => {
 
   return (
     <PostHogProvider apiKey={PostHogKey_Production} autocapture={postHogAutocapture}>
-      <SafeAreaView style={style.master}>
-        {/* status bar */}
-        <StatusBar backgroundColor={Color_BG} barStyle={'light-content'} />
-
+      <View style={style.master}>
+      {/* <StatusBar translucent backgroundColor="transparent" /> */}
         {/* main UI app */}
         <HomeScreen
           shouldShowPaywallFirstTime={didShowedWelcomeScreenRef.current && !result.subscribedDataOrUndefined}
         />
-      </SafeAreaView>
+      </View>
     </PostHogProvider>
   )
 }
