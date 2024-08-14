@@ -3,7 +3,7 @@
 // Created on 17 may 2024 (Coding Vocaby)
 
 import { createContext } from "react"
-import { AppContextType, OnSetSubcribeDataAsyncFuncParam, SubscribedData } from "./SpecificType"
+import { AppContextType, OnSetSubcribeDataAsyncFuncParam } from "./SpecificType"
 import { IAPProduct } from "./IAP/IAP"
 
 
@@ -12,7 +12,7 @@ export const iOSLink = "https://apps.apple.com/us/app/vocabulary-notification-vo
 export const ShortLink = "https://onelink.to/45p9ky"
 export const TwitterUrl = 'https://x.com/vocaby_app'
 
-export const AppName = 'Vocaby'
+export const AppName = 'Justodo'
 
 export const ShareAppContent =
     'Vocaby is your pocket English tutor, delivering vocabulary lessons directly to your mobile device through convenient notifications. Enhance your English skills effortlessly on the go!' +
