@@ -13,7 +13,7 @@ import { PostHogKey_Production } from './Keys'
 import HomeScreen from './src/App/Screens/HomeScreen'
 
 const App = () => {
-  const { handled, result } = useAsyncHandle(async () => SplashScreenLoader());
+  const { result } = useAsyncHandle(async () => SplashScreenLoader());
   const [showWelcomeScreen, set_showWelcomeScreen] = useState(false)
   const didShowedWelcomeScreenRef = useRef(false)
 

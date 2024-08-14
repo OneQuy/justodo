@@ -1,13 +1,12 @@
 // NUMBER OF [CHANGE HERE]: 1
 
-import { SplashScreenLoaderResult, SubscribedData, UserSelectedPopularityIndexProperty } from "./SpecificType";
+import { SplashScreenLoaderResult, SubscribedData } from "./SpecificType";
 import { FirebaseInit } from "./Firebase/Firebase";
 import { CheckIsDevAsync } from "./IsDev";
 import { GetRemoteConfigWithCheckFetchAsync } from "./RemoteConfig";
 import { InitUserIDAsync } from "./UserID";
 import { FetchUserDataOnNewlyInstall } from "./FetchUserDataOnNewlyInstall";
 import { StorageKey_SubscribeData } from "../App/Constants/StorageKey";
-import { GetUserPropertyFirebasePath } from "./UserMan";
 import { CheckSetStartUsingAppTickAsync, ClearAllFilesAndStorageAsync } from "./SpecificUtils";
 import { GetObjectAsync } from "./AsyncStorageUtils";
 
