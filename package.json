@@ -14,6 +14,7 @@
     "store": "cd android && ./gradlew bundlerelease"
   },
   "dependencies": {
+    "@aptabase/react-native": "^0.3.10",
     "@notifee/react-native": "^7.8.2",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-community/clipboard": "^1.5.1",
