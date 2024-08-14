@@ -3,7 +3,8 @@
 import { FirebaseDatabaseTimeOutMs } from "./Firebase/FirebaseDatabase";
 import { AlertAsync, DateDiff_InSeconds_WithNow, FetchWithTimeoutAsync, IsNumType, NoCacheHeaders, ToCanPrintError } from "./UtilsTS";
 
-const IsLog = true
+// const IsLog = true
+const IsLog = false
 
 const GetInternetTimeError = new Error('Can not fetch time.')
 
