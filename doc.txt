@@ -32,7 +32,6 @@ onequy app json firebase url
 - twitterUrl (https://x.com/vocaby_app)
 - twitterOneQuyUrl (https://x.com/onequy)
 
-
 =========================================
 
 cheat:
@@ -40,3 +39,6 @@ cheat:
 1. About > title 'Check out my apps': tap 20 times for set dev persistence.
 1. About > title 'Rate': reset Pro
 
+=========================================
+
+@react-native-async-storage/async-storage lucide-react-native react-native-svg posthog-react-native react-native-iap react-native-purchases react-native-fs @notifee/react-native react-native-device-info @react-native-community/clipboard
