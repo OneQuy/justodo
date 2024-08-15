@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
+import { Task } from '../Types'
+import TaskView from '../Components/TaskView'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -17,7 +19,11 @@ const HomeScreen = ({
 
     return (
         <View style={style.master}>
+            {/* background */}
             <BackgroundNavigator />
+
+            {/* tasks */}
+            <TaskView />
         </View>
     )
 }
