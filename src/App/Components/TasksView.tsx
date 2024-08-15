@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react'
 import { Task } from '../Types'
 import TaskItem from './TaskItem'
 
-const TaskView = () => {
+const TasksView = () => {
     const [tasks, set_tasks] = useState<Task[]>([
         {
             name: "todo here this is a task"
@@ -40,4 +40,4 @@ const TaskView = () => {
     )
 }
 
-export default TaskView
+export default TasksView

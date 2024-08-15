@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React, { useMemo, useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+import React, { useMemo } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
-import { Task } from '../Types'
-import TaskView from '../Components/TaskView'
+import TasksView from '../Components/TasksView'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -23,7 +22,7 @@ const HomeScreen = ({
             <BackgroundNavigator />
 
             {/* tasks */}
-            <TaskView />
+            <TasksView />
         </View>
     )
 }
