@@ -1,28 +1,18 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import React, { useMemo, useState } from 'react'
 import { Task } from '../../Types'
 import TaskItemView from './TaskItemView'
 
 const RowContainerView = () => {
-    const [tasks, set_tasks] = useState<Task[]>([
-        {
-            name: "todo here this is a task"
-        },
-        {
-            name: "todo here this is a task"
-        },
-        {
-            name: "todo here this is a task"
-        },
-        {
-            name: "todo here this is a task"
-        },
-    ])
+    const [currentTasks, set_currentTasks] = useState<Task[]>([])
 
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                position: 'absolute',
+                backgroundColor: 'pink',
+                width: '100%',
+                height: '13%',
+                flexDirection: 'row'
             }
         })
     }, [])
@@ -30,7 +20,7 @@ const RowContainerView = () => {
     return (
         <View style={style.master}>
             {
-                tasks.map((task, index) => {
+                currentTasks.map((task, index) => {
                     return (
                         <TaskItemView key={index} task={task} />
                     )

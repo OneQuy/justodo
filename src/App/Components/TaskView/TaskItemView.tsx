@@ -10,7 +10,7 @@ const TaskItemView = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                flex: 1
+                // flex: 1
             },
 
             taskNameTxt: {
