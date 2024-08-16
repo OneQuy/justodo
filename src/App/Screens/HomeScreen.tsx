@@ -24,7 +24,7 @@ const HomeScreen = ({
             <View style={{ position: 'absolute', backgroundColor: 'green', width: '100%', height: '100%' }}>
                 {/* tasks */}
                 <SafeAreaView style={{ flex: 1 }}>
-                    <RowContainerView />
+                    <RowContainerView paramTasks={[]} />
                 </SafeAreaView>
             </View>
         </View>

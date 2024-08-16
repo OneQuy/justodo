@@ -1,10 +1,22 @@
 import { View, StyleSheet } from 'react-native'
-import React, { useMemo, useState } from 'react'
-import { Task } from '../../Types'
+import React, { useEffect, useMemo, useState } from 'react'
+import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
 
-const RowContainerView = () => {
-    const [currentTasks, set_currentTasks] = useState<Task[]>([])
+const RowContainerView = ({
+    paramTasks,
+}: {
+    paramTasks: TaskPersistedData[],
+}) => {
+    const [currentTasks, set_currentTasks] = useState<TaskPersistedAndRuntimeData[]>([])
+
+    // on change tasks data
+
+    useEffect(() => {
+
+    }, [paramTasks])
+
+    // style
 
     const style = useMemo(() => {
         return StyleSheet.create({
@@ -16,6 +28,8 @@ const RowContainerView = () => {
             }
         })
     }, [])
+
+    // render
 
     return (
         <View style={style.master}>

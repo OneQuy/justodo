@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useMemo } from 'react'
-import { Task } from '../../Types'
+import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 
 const TaskItemView = ({
     task
 }: {
-    task: Task
+    task: TaskPersistedAndRuntimeData
 }) => {
     const style = useMemo(() => {
         return StyleSheet.create({

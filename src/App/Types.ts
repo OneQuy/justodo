@@ -1,9 +1,12 @@
-export type Task = {
-    // task data
-
+export type TaskPersistedData = {
     name: string,
+}
 
-    // run-time data
-
+export type TaskRuntimeData = {
     targetFlex: number,
+}
+
+export type TaskPersistedAndRuntimeData = {
+    persistedData: TaskPersistedData,
+    runtimeData?: TaskRuntimeData,
 }
