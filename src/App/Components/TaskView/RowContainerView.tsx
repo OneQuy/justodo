@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useMemo, useState } from 'react'
-import { Task } from '../Types'
-import TaskItem from './TaskItem'
+import { Task } from '../../Types'
+import TaskItemView from './TaskItemView'
 
-const TasksView = () => {
+const RowContainerView = () => {
     const [tasks, set_tasks] = useState<Task[]>([
         {
             name: "todo here this is a task"
@@ -32,7 +32,7 @@ const TasksView = () => {
             {
                 tasks.map((task, index) => {
                     return (
-                        <TaskItem key={index} task={task} />
+                        <TaskItemView key={index} task={task} />
                     )
                 })
             }
@@ -40,4 +40,4 @@ const TasksView = () => {
     )
 }
 
-export default TasksView
+export default RowContainerView

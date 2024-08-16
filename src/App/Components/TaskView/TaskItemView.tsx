@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useMemo } from 'react'
-import { Task } from '../Types'
+import { Task } from '../../Types'
 
-const TaskItem = ({
+const TaskItemView = ({
     task
 }: {
     task: Task
@@ -25,4 +25,4 @@ const TaskItem = ({
     )
 }
 
-export default TaskItem
+export default TaskItemView

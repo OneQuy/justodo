@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native'
 import React, { useMemo } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
-import TasksView from '../Components/TasksView'
+import RowContainerView from '../Components/TaskView/RowContainerView'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -22,7 +22,7 @@ const HomeScreen = ({
             <BackgroundNavigator />
 
             {/* tasks */}
-            <TasksView />
+            <RowContainerView />
         </View>
     )
 }
