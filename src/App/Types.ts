@@ -1,5 +1,5 @@
 export type TaskPersistedData = {
-    name: string,
+    uniqueTaskName: string,
 }
 
 export type TaskRuntimeData = {
