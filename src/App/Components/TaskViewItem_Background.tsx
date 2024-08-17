@@ -17,11 +17,13 @@ const TaskItemView_Background = ({
         return StyleSheet.create({
             master: {
                 backgroundColor: "#b0e0e6",
-                flex: 1,
+                // flex: 1,
+                width: '100%',
+                height: '100%',
             },
 
             imageBackgroundOrView: {
-                backgroundColor: "#6a5acd",
+                backgroundColor: "#6aaafb",
                 width: '100%',
                 height: '100%',
             },
@@ -33,7 +35,7 @@ const TaskItemView_Background = ({
 
     return (
         <ScaleUpView containerStyle={style.master}>
-            <ImageBackgroundOrView style={style.imageBackgroundOrView} />
+            <ImageBackgroundOrView source={{ uri: undefined }} style={style.imageBackgroundOrView} />
         </ScaleUpView>
     )
 }

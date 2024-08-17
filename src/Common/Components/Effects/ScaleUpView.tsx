@@ -10,7 +10,7 @@ const ScaleUpView = ({
     duration = 500,
     delay,
     containerStyle,
-    isScaleUpOrDown,
+    isScaleUpOrDown = true,
     completedCallback,
 }: {
     children: React.JSX.Element,

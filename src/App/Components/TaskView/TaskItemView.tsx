@@ -40,7 +40,7 @@ const TaskItemView = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: 'lavenderblush',
+                backgroundColor: "#fff0f5",
             },
 
             taskNameTxt: {
