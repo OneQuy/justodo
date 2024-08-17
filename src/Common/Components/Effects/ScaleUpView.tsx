@@ -19,7 +19,7 @@ const ScaleUpView = ({
     delay?: number,
     isScaleUpOrDown?: boolean,
     containerStyle?: StyleProp<ViewStyle>,
-    completedCallback?: () => void,
+    completedCallback?: (isScaleUpOrDown: boolean) => void,
 }) => {
     const scaleValue = useRef(new Animated.Value(0)).current;
 
@@ -31,7 +31,7 @@ const ScaleUpView = ({
                 toValue,
                 delay,
                 useNativeDriver: true,
-            }).start(completedCallback)
+            }).start(() => completedCallback?.(isScaleUpOrDown))
         }
         else {
             Animated.timing(scaleValue, {
@@ -39,12 +39,18 @@ const ScaleUpView = ({
                 duration,
                 delay,
                 useNativeDriver: true,
-            }).start(completedCallback);
+            }).start(() => completedCallback?.(isScaleUpOrDown))
         }
     }, [isScaleUpOrDown]);
 
     return (
-        <Animated.View style={[CommonStyles.justifyContentCenter_AlignItemsCenter, containerStyle, { transform: [{ scale: scaleValue }] }]}>
+        <Animated.View
+            style={[
+                CommonStyles.justifyContentCenter_AlignItemsCenter,
+                containerStyle,
+                { transform: [{ scale: scaleValue }] }
+            ]}
+        >
             {children}
         </Animated.View>
     );
