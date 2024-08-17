@@ -2,7 +2,8 @@ import { View, StyleSheet } from 'react-native'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
-import { CalcTargetFlex } from '../../Handles/AppUtils'
+import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
+import { CloneObject } from '../../../Common/UtilsTS'
 
 const RowContainerView = ({
     paramTasks,
@@ -14,9 +15,9 @@ const RowContainerView = ({
     // on change tasks data
 
     useEffect(() => {
-        // set target flex for each task
+        // set target flex for each paramTasks
 
-        const newDataTasks: TaskPersistedAndRuntimeData[] = []
+        const newDataTasks: TaskPersistedAndRuntimeData[] = [] // aka param tasks
 
         for (let i = 0; i < paramTasks.length; i++) {
             const persistedData = paramTasks[i]
@@ -30,7 +31,47 @@ const RowContainerView = ({
             })
         }
 
-        
+        // remove no use task and update target flex current tasks
+
+        for (let i = 0; i < currentTasks.length; i++) {
+            var curTask = currentTasks[0]
+
+            // if cur task NOT included in new tasks => prepare for removing effect
+
+            const findCurTaskInNewTasks = newDataTasks.find(i => IsTaskPersistedDataEqual(i.persistedData, curTask.persistedData))
+
+            if (!findCurTaskInNewTasks) { // current task NOT found in param tasks => prepare for removing effect
+                if (!curTask.runtimeData) {
+                    curTask.runtimeData = {
+                        targetFlex: 0,
+                    }
+                }
+                else
+                    curTask.runtimeData.targetFlex = 0
+            }
+            else { // current task found in param tasks => update target flex
+                if (!findCurTaskInNewTasks.runtimeData)
+                    throw new Error()
+
+                if (!curTask.runtimeData) {
+                    curTask.runtimeData = {
+                        targetFlex: findCurTaskInNewTasks.runtimeData.targetFlex
+                    }
+                }
+                else
+                    curTask.runtimeData.targetFlex = findCurTaskInNewTasks.runtimeData.targetFlex
+            }
+        }
+
+        // add new task to current tasks
+
+        const newTasksToAdd = newDataTasks.filter(i => currentTasks.findIndex(cur => IsTaskPersistedDataEqual(i.persistedData, cur.persistedData)) < 0)
+
+        currentTasks.push(...newTasksToAdd)
+
+        // update view
+
+        set_currentTasks(CloneObject(currentTasks))
     }, [paramTasks])
 
     // style
