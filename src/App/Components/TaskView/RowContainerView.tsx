@@ -5,6 +5,8 @@ import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
 import { CloneObject } from '../../../Common/UtilsTS'
 
+const IsLog = true
+
 const RowContainerView = ({
     paramTasks,
 }: {
@@ -71,7 +73,11 @@ const RowContainerView = ({
 
         // update view
 
-        set_currentTasks(CloneObject(currentTasks))
+        const finalTasks = CloneObject(currentTasks)
+
+        set_currentTasks(finalTasks)
+
+        if (IsLog) console.log('[RowContainerView] changed tasks data:\n' + JSON.stringify(finalTasks, null, 1));
     }, [paramTasks])
 
     // style

@@ -1612,3 +1612,7 @@ export async function DelayAsync(msTime: number) {
 export function LogStringify<T>(anything: any) {
     console.log(JSON.stringify(anything, null, 1));
 }
+
+export function ToStringify_1<T>(anything: any) {
+    return JSON.stringify(anything, null, 1);
+}
