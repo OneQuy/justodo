@@ -5,7 +5,7 @@ import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
 import { CloneObject } from '../../../Common/UtilsTS'
 
-const IsLog = true
+const IsLog = false
 
 const RowContainerView = ({
     paramTasks,
@@ -85,7 +85,7 @@ const RowContainerView = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: 'pink',
+                backgroundColor: 'gray',
                 width: '100%',
                 height: '13%',
                 flexDirection: 'row'
