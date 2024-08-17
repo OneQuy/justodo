@@ -16,6 +16,10 @@ const TaskItemView = ({
         // console.log('done flexing', currentValue, task);
 
         const isAppearOrRemove = currentValue > 0
+
+        if (isAppearOrRemove) { // appear => start background shows up effect
+            set_isShowBackground(true)
+        }
     }, [task])
 
     const {
