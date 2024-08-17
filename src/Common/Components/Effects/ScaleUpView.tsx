@@ -10,32 +10,38 @@ const ScaleUpView = ({
     duration = 500,
     delay,
     containerStyle,
+    isScaleUpOrDown,
+    completedCallback,
 }: {
     children: React.JSX.Element,
     isSpringOrTiming?: boolean,
     duration?: number,
     delay?: number,
+    isScaleUpOrDown?: boolean,
     containerStyle?: StyleProp<ViewStyle>,
+    completedCallback?: () => void,
 }) => {
     const scaleValue = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+        const toValue = isScaleUpOrDown ? 1 : 0
+
         if (isSpringOrTiming === true) {
             Animated.spring(scaleValue, {
-                toValue: 1,
+                toValue,
                 delay,
                 useNativeDriver: true,
-            }).start();
+            }).start(completedCallback)
         }
         else {
             Animated.timing(scaleValue, {
-                toValue: 1,
+                toValue,
                 duration,
                 delay,
                 useNativeDriver: true,
-            }).start();
+            }).start(completedCallback);
         }
-    }, []);
+    }, [isScaleUpOrDown]);
 
     return (
         <Animated.View style={[CommonStyles.justifyContentCenter_AlignItemsCenter, containerStyle, { transform: [{ scale: scaleValue }] }]}>

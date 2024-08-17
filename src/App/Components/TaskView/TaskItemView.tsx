@@ -1,16 +1,21 @@
 import { View, Text, StyleSheet, Animated } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
 import { RandomColor, SafeValue } from '../../../Common/UtilsTS'
+import TaskItemView_Background from '../TaskViewItem_Background'
 
 const TaskItemView = ({
     task
 }: {
     task: TaskPersistedAndRuntimeData
 }) => {
+    const [isShowBackground, set_isShowBackground] = useState(false)
+
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
         // console.log('done flexing', currentValue, task);
+
+        const isAppearOrRemove = currentValue > 0
     }, [task])
 
     const {
@@ -35,7 +40,7 @@ const TaskItemView = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: RandomColor(),
+                backgroundColor: 'lavenderblush',
             },
 
             taskNameTxt: {
@@ -48,7 +53,11 @@ const TaskItemView = ({
             style.master,
             { flex: flexingAnimatedValue }
         ]}>
-            {/* <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text> */}
+            {/* background */}
+            {
+                isShowBackground &&
+                <TaskItemView_Background task={task} />
+            }
         </Animated.View>
     )
 }

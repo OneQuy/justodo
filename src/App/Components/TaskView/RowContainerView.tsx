@@ -4,6 +4,7 @@ import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
 import { CloneObject } from '../../../Common/UtilsTS'
+import { Gap } from '../../Constants/Constants_Outline'
 
 const IsLog = false
 
@@ -88,7 +89,8 @@ const RowContainerView = ({
                 backgroundColor: 'gray',
                 width: '100%',
                 height: '13%',
-                flexDirection: 'row'
+                flexDirection: 'row',
+                gap: Gap.Small,
             }
         })
     }, [])
