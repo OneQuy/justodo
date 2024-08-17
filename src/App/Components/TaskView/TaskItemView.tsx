@@ -10,7 +10,7 @@ const TaskItemView = ({
     task: TaskPersistedAndRuntimeData
 }) => {
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
-        console.log('done flexing', currentValue, task);
+        // console.log('done flexing', currentValue, task);
     }, [task])
 
     const {
