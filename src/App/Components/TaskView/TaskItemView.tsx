@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Animated } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
-import { SafeValue } from '../../../Common/UtilsTS'
+import { RandomColor, SafeValue } from '../../../Common/UtilsTS'
 
 const TaskItemView = ({
     task
@@ -10,8 +10,8 @@ const TaskItemView = ({
     task: TaskPersistedAndRuntimeData
 }) => {
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
-
-    }, [])
+        console.log('done flexing', currentValue, task);
+    }, [task])
 
     const {
         animatedValue: flexingAnimatedValue,
@@ -35,7 +35,7 @@ const TaskItemView = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: 'gray'
+                backgroundColor: RandomColor(),
             },
 
             taskNameTxt: {
@@ -48,7 +48,7 @@ const TaskItemView = ({
             style.master,
             { flex: flexingAnimatedValue }
         ]}>
-            <Text style={style.taskNameTxt}>TaskItem</Text>
+            <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
         </Animated.View>
     )
 }
