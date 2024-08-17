@@ -48,7 +48,7 @@ const TaskItemView = ({
             style.master,
             { flex: flexingAnimatedValue }
         ]}>
-            <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
+            {/* <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text> */}
         </Animated.View>
     )
 }
