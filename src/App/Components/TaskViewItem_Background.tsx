@@ -6,9 +6,11 @@ import ScaleUpView from '../../Common/Components/Effects/ScaleUpView'
 import ImageBackgroundOrView from '../../Common/Components/ImageBackgroundOrView'
 
 const TaskItemView_Background = ({
-    task
+    task,
+    completedShowCallback,
 }: {
-    task: TaskPersistedAndRuntimeData
+    task: TaskPersistedAndRuntimeData,
+    completedShowCallback: (isAppearOrRemove: boolean) => void,
 }) => {
 
     // style
@@ -34,7 +36,10 @@ const TaskItemView_Background = ({
     }, [])
 
     return (
-        <ScaleUpView containerStyle={style.master}>
+        <ScaleUpView
+            containerStyle={style.master}
+            completedCallback={completedShowCallback}
+        >
             <ImageBackgroundOrView source={{ uri: undefined }} style={style.imageBackgroundOrView} />
         </ScaleUpView>
     )

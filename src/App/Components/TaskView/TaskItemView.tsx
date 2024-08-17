@@ -22,6 +22,10 @@ const TaskItemView = ({
         }
     }, [task])
 
+    const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
+        console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
+    }, [])
+
     const {
         animatedValue: flexingAnimatedValue,
         startAnimation: flexingStartAnimation,
@@ -60,7 +64,11 @@ const TaskItemView = ({
             {/* background */}
             {
                 isShowBackground &&
-                <TaskItemView_Background task={task} />
+                <TaskItemView_Background
+                    completedShowCallback={onBackgroundAnimationEnd}
+                    task={task}
+
+                />
             }
         </Animated.View>
     )
