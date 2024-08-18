@@ -1,9 +1,9 @@
 import { View, StyleSheet } from 'react-native'
 import React, { useMemo } from 'react'
-import { CommonStyles } from '../../Common/CommonConstants'
-import { TaskPersistedAndRuntimeData } from '../Types'
-import ScaleUpView from '../../Common/Components/Effects/ScaleUpView'
-import ImageBackgroundOrView from '../../Common/Components/ImageBackgroundOrView'
+import { CommonStyles } from '../../../Common/CommonConstants'
+import { TaskPersistedAndRuntimeData } from '../../Types'
+import ScaleUpView from '../../../Common/Components/Effects/ScaleUpView'
+import ImageBackgroundOrView from '../../../Common/Components/ImageBackgroundOrView'
 
 const TaskItemView_Background = ({
     task,

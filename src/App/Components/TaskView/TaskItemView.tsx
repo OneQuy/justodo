@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
 import { RandomColor, SafeValue } from '../../../Common/UtilsTS'
-import TaskItemView_Background from '../TaskViewItem_Background'
+import TaskItemView_Background from './TaskViewItem_Background'
 
 const IsLog = true
 
