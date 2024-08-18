@@ -2,10 +2,13 @@
 
 import React, { useRef, useEffect } from 'react';
 import { Animated, Dimensions, StyleProp, ViewStyle } from 'react-native';
+import { PickRandomElement } from '../../UtilsTS';
+
+type Direction = 'left' | 'right' | 'top' | 'bottom'
 
 const SlideInView = ({
     children,
-    from = 'right',
+    from = RandomDirection(),
     isSpringOrTiming = true,
     duration = 500,
     delay,
@@ -14,7 +17,7 @@ const SlideInView = ({
     completedCallback,
 }: {
     children: React.JSX.Element,
-    from?: 'left' | 'right' | 'top' | 'bottom',
+    from?: Direction,
     isSpringOrTiming?: boolean,
     duration?: number,
     delay?: number,
@@ -88,3 +91,9 @@ const SlideInView = ({
 };
 
 export default SlideInView
+
+const RandomDirection = () : Direction => {
+    return PickRandomElement([
+        'left', 'right', 'top', 'bottom',
+    ]) || 'right'
+}
