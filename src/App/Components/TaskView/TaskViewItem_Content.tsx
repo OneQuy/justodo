@@ -22,7 +22,8 @@ const TaskItemView_Content = ({
 
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: "#bc8f8f",
+                
+                // backgroundColor: "#bc8f8f",
                 // flex: 1,
             },
 

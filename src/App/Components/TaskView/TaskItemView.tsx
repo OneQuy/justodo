@@ -14,12 +14,16 @@ const TaskItemView = ({
     task: TaskPersistedAndRuntimeData
 }) => {
     const [isShowContent, set_isShowContent] = useState(false)
+
     const [isShowBackground, set_isShowBackground] = useState(false)
+    const [isScaleUpOrDownBackground, set_isScaleUpOrDownBackground] = useState(true)
+
+    const startRemoveTask = useCallback(() => {
+        set_isShowContent(false)
+        set_isScaleUpOrDownBackground(false)
+    }, [])
 
     // end background animation
-
-    const removeTask = useCallback(() => {
-    }, [])
 
     const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
         // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
@@ -73,16 +77,21 @@ const TaskItemView = ({
     }, [])
 
     return (
-        <Animated.View style={[
-            style.master,
-            { flex: flexingAnimatedValue }
-        ]}>
+        <Animated.View
+            style={[
+                style.master,
+                { flex: flexingAnimatedValue }
+            ]}
+
+            onTouchEnd={startRemoveTask}
+        >
             {/* background */}
             {
                 isShowBackground &&
                 <TaskItemView_Background
                     completedShowCallback={onBackgroundAnimationEnd}
                     task={task}
+                    isScaleUpOrDown={isScaleUpOrDownBackground}
                 />
             }
 

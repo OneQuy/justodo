@@ -86,7 +86,7 @@ const RowContainerView = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: 'gray',
+                backgroundColor: '#fff5ee',
                 width: '100%',
                 height: '13%',
                 flexDirection: 'row',
