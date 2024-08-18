@@ -16,6 +16,16 @@ const TaskItemView = ({
     const [isShowContent, set_isShowContent] = useState(false)
     const [isShowBackground, set_isShowBackground] = useState(false)
 
+    // end background animation
+
+    const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
+        // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
+
+        if (isAppearOrRemove) {
+            set_isShowContent(true)
+        }
+    }, [])
+
     // end flexing animation
 
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
@@ -27,16 +37,6 @@ const TaskItemView = ({
             set_isShowBackground(true)
         }
     }, [task])
-
-    // end background animation
-
-    const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
-        // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
-
-        if (isAppearOrRemove) {
-            set_isShowContent(true)
-        }
-    }, [])
 
     // flexing vars
 
