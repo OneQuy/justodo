@@ -32,6 +32,10 @@ const TaskItemView = ({
 
     const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
         // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
+
+        if (isAppearOrRemove) {
+            set_isShowContent(true)
+        }
     }, [])
 
     // flexing vars
@@ -82,7 +86,7 @@ const TaskItemView = ({
 
             {/* content */}
             {
-                // isShowBackground &&
+                isShowContent &&
                 <TaskItemView_Content
                     completedShowCallback={onBackgroundAnimationEnd}
                     task={task}

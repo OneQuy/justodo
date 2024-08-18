@@ -17,13 +17,18 @@ const TaskItemView_Content = ({
         return StyleSheet.create({
             master: {
                 position: 'absolute',
-                backgroundColor: "#bc8f8f",
-                // flex: 1,
                 width: '100%',
                 height: '100%',
+
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: "#bc8f8f",
+                // flex: 1,
             },
 
             taskNameTxt: {
+                // width: '100%',
+                // height: '100%',
             }
         })
     }, [])
