@@ -4,7 +4,7 @@ import { TaskPersistedAndRuntimeData } from '../../Types'
 import ScaleUpView from '../../../Common/Components/Effects/ScaleUpView'
 import ImageBackgroundOrView from '../../../Common/Components/ImageBackgroundOrView'
 
-const TaskItemView_Background = ({
+const TaskItemView_Content = ({
     task,
     completedShowCallback,
 }: {
@@ -44,4 +44,4 @@ const TaskItemView_Background = ({
     )
 }
 
-export default TaskItemView_Background
+export default TaskItemView_Content

@@ -9,57 +9,64 @@ const SlideInView = ({
     isSpringOrTiming = true,
     duration = 500,
     delay,
+    isInOrOut = true,
     containerStyle,
+    completedCallback,
 }: {
     children: React.JSX.Element,
     from?: 'left' | 'right' | 'top' | 'bottom',
     isSpringOrTiming?: boolean,
     duration?: number,
     delay?: number,
+    isInOrOut?: boolean,
+    completedCallback?: (isInOrOut: boolean) => void,
     containerStyle?: StyleProp<ViewStyle>,
 }) => {
-    const translateValue = useRef(new Animated.Value(Number.MAX_VALUE)).current;
+    const translateValue = useRef(new Animated.Value(isInOrOut ? Number.MAX_VALUE : 0)).current;
 
     useEffect(() => {
-        let initialPosition;
+        let outsidePosition;
         const screenWidth = Dimensions.get('window').width;
         const screenHeight = Dimensions.get('window').height;
 
         switch (from) {
             case 'left':
-                initialPosition = -screenWidth;
+                outsidePosition = -screenWidth;
                 break;
             case 'right':
-                initialPosition = screenWidth;
+                outsidePosition = screenWidth;
                 break;
             case 'top':
-                initialPosition = -screenHeight;
+                outsidePosition = -screenHeight;
                 break;
             case 'bottom':
-                initialPosition = screenHeight;
+                outsidePosition = screenHeight;
                 break;
             default:
-                initialPosition = -screenWidth;
+                outsidePosition = -screenWidth;
         }
 
-        translateValue.setValue(initialPosition);
+        const startPosition = isInOrOut ? outsidePosition : 0
+        const targetPosition = isInOrOut ? 0 : outsidePosition
+
+        translateValue.setValue(startPosition);
 
         if (isSpringOrTiming) {
             Animated.spring(translateValue, {
-                toValue: 0,
+                toValue: targetPosition,
                 delay,
                 useNativeDriver: true,
-            }).start();
+            }).start(() => completedCallback?.(isInOrOut))
         }
         else {
             Animated.timing(translateValue, {
-                toValue: 0,
+                toValue: targetPosition,
                 duration,
                 delay,
                 useNativeDriver: true,
-            }).start();
+            }).start(() => completedCallback?.(isInOrOut))
         }
-    }, []);
+    }, [isInOrOut]);
 
     const transformStyle =
     {
