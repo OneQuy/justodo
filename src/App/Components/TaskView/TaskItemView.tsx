@@ -63,7 +63,7 @@ const TaskItemView = ({
         return StyleSheet.create({
             master: {
                 backgroundColor: "#fff0f5",
-                overflow: 'hidden',
+                overflow: 'hidden', // for hide text content (TaskItemView_Content) SlideIn effect
             },
 
             taskNameTxt: {
