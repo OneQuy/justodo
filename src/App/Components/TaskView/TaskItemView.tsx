@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Animated } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
+import { StyleSheet, Animated } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { TaskPersistedAndRuntimeData } from '../../Types'
 import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
-import { RandomColor, SafeValue } from '../../../Common/UtilsTS'
+import { SafeValue } from '../../../Common/UtilsTS'
 import TaskItemView_Background from './TaskViewItem_Background'
+import TaskItemView_Content from './TaskViewItem_Content'
 
 const IsLog = true
 
@@ -12,7 +13,10 @@ const TaskItemView = ({
 }: {
     task: TaskPersistedAndRuntimeData
 }) => {
+    const [isShowContent, set_isShowContent] = useState(false)
     const [isShowBackground, set_isShowBackground] = useState(false)
+
+    // end flexing animation
 
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
         // console.log('done flexing', currentValue, task);
@@ -24,9 +28,13 @@ const TaskItemView = ({
         }
     }, [task])
 
+    // end background animation
+
     const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
-        if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
+        // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
     }, [])
+
+    // flexing vars
 
     const {
         animatedValue: flexingAnimatedValue,
@@ -69,7 +77,15 @@ const TaskItemView = ({
                 <TaskItemView_Background
                     completedShowCallback={onBackgroundAnimationEnd}
                     task={task}
+                />
+            }
 
+            {/* content */}
+            {
+                // isShowBackground &&
+                <TaskItemView_Content
+                    completedShowCallback={onBackgroundAnimationEnd}
+                    task={task}
                 />
             }
         </Animated.View>

@@ -1,8 +1,7 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import React, { useMemo } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
-import ScaleUpView from '../../../Common/Components/Effects/ScaleUpView'
-import ImageBackgroundOrView from '../../../Common/Components/ImageBackgroundOrView'
+import SlideInView from '../../../Common/Components/Effects/SlideInView'
 
 const TaskItemView_Content = ({
     task,
@@ -17,14 +16,9 @@ const TaskItemView_Content = ({
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: "#b0e0e6",
+                position: 'absolute',
+                backgroundColor: "#bc8f8f",
                 // flex: 1,
-                width: '100%',
-                height: '100%',
-            },
-
-            imageBackgroundOrView: {
-                backgroundColor: "#6aaafb",
                 width: '100%',
                 height: '100%',
             },
@@ -35,12 +29,12 @@ const TaskItemView_Content = ({
     }, [])
 
     return (
-        <ScaleUpView
+        <SlideInView
             containerStyle={style.master}
             completedCallback={completedShowCallback}
         >
-            <ImageBackgroundOrView source={{ uri: undefined }} style={style.imageBackgroundOrView} />
-        </ScaleUpView>
+            <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
+        </SlideInView>
     )
 }
 
