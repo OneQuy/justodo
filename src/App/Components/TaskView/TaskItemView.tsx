@@ -63,6 +63,7 @@ const TaskItemView = ({
         return StyleSheet.create({
             master: {
                 backgroundColor: "#fff0f5",
+                overflow: 'hidden',
             },
 
             taskNameTxt: {
