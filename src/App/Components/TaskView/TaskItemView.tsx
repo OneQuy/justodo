@@ -18,6 +18,9 @@ const TaskItemView = ({
 
     // end background animation
 
+    const removeTask = useCallback(() => {
+    }, [])
+
     const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
         // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
 
@@ -29,8 +32,6 @@ const TaskItemView = ({
     // end flexing animation
 
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
-        // console.log('done flexing', currentValue, task);
-
         const isAppearOrRemove = currentValue > 0
 
         if (isAppearOrRemove) { // appear => start background shows up effect
