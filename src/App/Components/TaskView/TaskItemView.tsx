@@ -5,6 +5,8 @@ import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
 import { RandomColor, SafeValue } from '../../../Common/UtilsTS'
 import TaskItemView_Background from '../TaskViewItem_Background'
 
+const IsLog = true
+
 const TaskItemView = ({
     task
 }: {
@@ -23,7 +25,7 @@ const TaskItemView = ({
     }, [task])
 
     const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
-        console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
+        if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
     }, [])
 
     const {
