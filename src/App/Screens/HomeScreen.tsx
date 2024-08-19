@@ -1,10 +1,12 @@
-import { View, StyleSheet, SafeAreaView, Button } from 'react-native'
+import { View, StyleSheet, Button } from 'react-native'
 import React, { useCallback, useMemo, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../Types'
 import { CloneObject, IsValuableArrayOrString, RandomInt } from '../../Common/UtilsTS'
 import { IsTaskPersistedDataEqual } from '../Handles/AppUtils'
+import { CommonStyles } from '../../Common/CommonConstants'
+import LucideIconTextEffectButton from '../../Common/Components/LucideIconTextEffectButton'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -12,7 +14,7 @@ const HomeScreen = ({
     shouldShowPaywallFirstTime: boolean,
 }) => {
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
-
+    
     const addRandomTask = () => {
         const newTask: TaskPersistedData = {
             uniqueTaskName: RandomInt(0, 9999).toString()
@@ -51,6 +53,21 @@ const HomeScreen = ({
         return StyleSheet.create({
             master: {
                 flex: 1
+            },
+
+            overlayBackgroundView: {
+                position: 'absolute', backgroundColor: 'mintcream', width: '100%', height: '100%'
+            },
+
+            bottomBarView: {
+                flexDirection: 'row',
+                justifyContent: 'flex-end'
+            },
+
+            addTaskBtn: {
+                // aspectRatio: 3,
+                borderWidth: 0,
+                minWidth: '15%',
             }
         })
     }, [])
@@ -60,9 +77,9 @@ const HomeScreen = ({
             {/* background */}
             <BackgroundNavigator />
 
-            <View style={{ position: 'absolute', backgroundColor: 'mintcream', width: '100%', height: '100%' }}>
+            <View style={style.overlayBackgroundView}>
                 {/* tasks */}
-                <SafeAreaView style={{ flex: 1 }}>
+                <View style={CommonStyles.flex_1}>
                     {
                         IsValuableArrayOrString(taskRows) && IsValuableArrayOrString(taskRows[0]) &&
                         <RowContainerView
@@ -70,8 +87,16 @@ const HomeScreen = ({
                             actionRemoveTask={actionRemoveTask}
                         />
                     }
-                    <Button title='Add' onPress={addRandomTask} />
-                </SafeAreaView>
+                </View>
+
+                {/* bottom bar */}
+                <View style={style.bottomBarView}>
+                    {/* add task btn */}
+                    <LucideIconTextEffectButton
+                        style={style.addTaskBtn}
+                        iconProps={{ name: 'Plus' }}
+                    />
+                </View>
             </View>
         </View>
     )
