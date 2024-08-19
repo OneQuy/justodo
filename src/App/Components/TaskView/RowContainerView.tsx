@@ -1,9 +1,9 @@
 import { View, StyleSheet } from 'react-native'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
-import { CloneObject } from '../../../Common/UtilsTS'
+import { ArrayRemove, ArrayRemovePredicate, CloneObject, LogStringify } from '../../../Common/UtilsTS'
 import { Gap } from '../../Constants/Constants_Outline'
 
 // const IsLog = true
@@ -16,26 +16,24 @@ const RowContainerView = ({
     paramTasks: TaskPersistedData[],
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
 }) => {
-    const [currentTasks, set_currentTasks] = useState<TaskPersistedAndRuntimeData[]>([])
+    const [renderTasks, set_renderTasks] = useState<TaskPersistedAndRuntimeData[]>([])
 
-    // const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData, setFlexZeroOrRemoveFromData: boolean) => {
-    //     if (!task.runtimeData)
-    //         throw new Error('[ne] actionRemoveTask')
+    const onFlexingAnimationEndItem = useCallback((isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => {
+        if (isAppearOrRemove) { }
+        else { // remove
+            const removeRes = ArrayRemove(renderTasks, task)
+            // console.log('removeRes', removeRes);
 
-    //     let curTasks: TaskPersistedAndRuntimeData[] = currentTasks
+            if (removeRes) {
+                const afterRemoveTasks = CloneObject(renderTasks)
+                set_renderTasks(afterRemoveTasks)
 
-    //     if (setFlexZeroOrRemoveFromData)
-    //         task.runtimeData.targetFlex = 0
-    //     else { // RemoveFromData
-    //         curTasks = curTasks.filter(t => t.runtimeData && t.runtimeData.targetFlex > 0)
-    //     }
-
-    //     // update view
-
-    //     const finalTasks = CloneObject(curTasks)
-
-    //     set_currentTasks(finalTasks)
-    // }, [currentTasks])
+                if (IsLog) console.log('[RowContainerView] (after remove) changed tasks data:\n' + JSON.stringify(afterRemoveTasks, null, 1));
+            }
+            else
+                throw new Error('[ne] onFlexingAnimationEndItem')
+        }
+    }, [renderTasks])
 
     // on change tasks data
 
@@ -58,21 +56,28 @@ const RowContainerView = ({
 
         // remove no use task and update target flex current tasks
 
-        for (let i = 0; i < currentTasks.length; i++) {
-            var curTask = currentTasks[i]
+        for (let i = 0; i < renderTasks.length; i++) {
+            var curTask = renderTasks[i]
 
             // if cur task NOT included in new tasks => prepare for removing effect
 
             const findCurTaskInNewTasks = newDataTasks.find(i => IsTaskPersistedDataEqual(i.persistedData, curTask.persistedData))
 
-            if (!findCurTaskInNewTasks) { // current task NOT found in param tasks => prepare for removing effect
-                if (!curTask.runtimeData) {
-                    curTask.runtimeData = {
-                        targetFlex: 0,
-                    }
-                }
-                else
+            if (!findCurTaskInNewTasks) { // current task NOT found in param tasks
+                if (!curTask.runtimeData)
+                    throw new Error('[ne] RowContainerView useEffect')
+
+                // console.log('cccc');
+                // LogStringify(curTask)
+
+                if (curTask.runtimeData.targetFlex > 0) // => prepare for removing effect
                     curTask.runtimeData.targetFlex = 0
+                else { // => remove 
+                    const res = ArrayRemovePredicate(renderTasks, (task) => IsTaskPersistedDataEqual(task.persistedData, curTask.persistedData))
+
+                    // console.log('xxxxx', res);
+                    // LogStringify(renderTasks)
+                }
             }
             else { // current task found in param tasks => update target flex
                 if (!findCurTaskInNewTasks.runtimeData)
@@ -90,15 +95,15 @@ const RowContainerView = ({
 
         // add new task to current tasks
 
-        const newTasksToAdd = newDataTasks.filter(i => currentTasks.findIndex(cur => IsTaskPersistedDataEqual(i.persistedData, cur.persistedData)) < 0)
+        const newTasksToAdd = newDataTasks.filter(i => renderTasks.findIndex(cur => IsTaskPersistedDataEqual(i.persistedData, cur.persistedData)) < 0)
 
-        currentTasks.push(...newTasksToAdd)
+        renderTasks.push(...newTasksToAdd)
 
         // update view
 
-        const finalTasks = CloneObject(currentTasks)
+        const finalTasks = CloneObject(renderTasks)
 
-        set_currentTasks(finalTasks)
+        set_renderTasks(finalTasks)
 
         if (IsLog) console.log('[RowContainerView] changed tasks data:\n' + JSON.stringify(finalTasks, null, 1));
     }, [paramTasks])
@@ -122,11 +127,13 @@ const RowContainerView = ({
     return (
         <View style={style.master}>
             {
-                currentTasks.map((task, index) => {
+                renderTasks.map((task, index) => {
                     return (
                         <TaskItemView
-                            key={index} task={task}
+                            key={task.persistedData.uniqueTaskName}
+                            task={task}
                             actionRemoveTask={actionRemoveTask}
+                            onFlexingAnimationEndItem={onFlexingAnimationEndItem}
                         />
                     )
                 })

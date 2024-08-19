@@ -14,16 +14,8 @@ const HomeScreen = ({
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
 
     const addRandomTask = () => {
-        const taskNames = [
-            'hi',
-            'ho ho',
-            'todo let do it',
-            'this what?',
-        ]
-
         const newTask: TaskPersistedData = {
-            // @ts-ignore
-            uniqueTaskName: (PickRandomElement(taskNames) + RandomInt(0, 999)) ?? ''
+            uniqueTaskName: RandomInt(0, 99).toString()
         }
 
         // console.log('added', newTask);

@@ -6,20 +6,23 @@ import { SafeValue } from '../../../Common/UtilsTS'
 import TaskItemView_Background from './TaskViewItem_Background'
 import TaskItemView_Content from './TaskViewItem_Content'
 
-const IsLog = true
+// const IsLog = true
 
 const TaskItemView = ({
     task,
     actionRemoveTask,
+    onFlexingAnimationEndItem,
 }: {
-    // actionRemoveTask: (task: TaskPersistedAndRuntimeData, setFlexZeroOrRemoveFromData: boolean) => void,
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
+    onFlexingAnimationEndItem: (isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData
 }) => {
     const [isShowContent, set_isShowContent] = useState(false)
 
     const [isShowBackground, set_isShowBackground] = useState(false)
     const [isScaleUpOrDownBackground, set_isScaleUpOrDownBackground] = useState(true)
+
+    // remove 
 
     const startRemoveTask = useCallback(() => {
         set_isShowContent(false)
@@ -52,7 +55,9 @@ const TaskItemView = ({
         if (isAppearOrRemove) { // appear => start background shows up effect
             set_isShowBackground(true)
         }
-    }, [task])
+
+        onFlexingAnimationEndItem(isAppearOrRemove, task)
+    }, [task, onFlexingAnimationEndItem])
 
     // flexing vars
 

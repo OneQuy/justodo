@@ -645,7 +645,23 @@ export function ShuffleArray<T>(arr: T[]): void {
  * @returns true if did remove item
  */
 export function ArrayRemove<T>(arr: T[], value: T): boolean {
+    if (!IsValuableArrayOrString(arr))
+        return false
+
     const idx = arr.indexOf(value)
+
+    if (idx < 0)
+        return false
+
+    arr.splice(idx, 1)
+    return true
+}
+
+export function ArrayRemovePredicate<T>(arr: T[], predicate: (item: T) => boolean): boolean {
+    if (!IsValuableArrayOrString(arr))
+        return false
+
+    const idx = arr.findIndex(predicate)
 
     if (idx < 0)
         return false
