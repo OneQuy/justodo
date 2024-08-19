@@ -1,9 +1,10 @@
 import { View, StyleSheet, SafeAreaView, Button } from 'react-native'
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
-import { TaskPersistedData } from '../Types'
-import { CloneObject, IsValuableArrayOrString, PickRandomElement, RandomInt } from '../../Common/UtilsTS'
+import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../Types'
+import { ArrayRemove, CloneObject, IsValuableArrayOrString, PickRandomElement, RandomInt } from '../../Common/UtilsTS'
+import { IsTaskPersistedDataEqual } from '../Handles/AppUtils'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -35,6 +36,23 @@ const HomeScreen = ({
         set_taskRows(CloneObject(taskRows))
     }
 
+    const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData) => {
+        for (let row of taskRows) {
+            const idx = row.findIndex(t => IsTaskPersistedDataEqual(t, task.persistedData))
+
+            if (idx < 0)
+                continue
+
+            row.splice(idx, 1)
+            const final = CloneObject(taskRows)
+            set_taskRows(final)
+
+            // console.log('removeee', task, final);
+
+            return
+        }
+    }, [taskRows])
+
     // style
 
     const style = useMemo(() => {
@@ -55,7 +73,10 @@ const HomeScreen = ({
                 <SafeAreaView style={{ flex: 1 }}>
                     {
                         IsValuableArrayOrString(taskRows) && IsValuableArrayOrString(taskRows[0]) &&
-                        <RowContainerView paramTasks={taskRows[0]} />
+                        <RowContainerView
+                            paramTasks={taskRows[0]}
+                            actionRemoveTask={actionRemoveTask}
+                        />
                     }
                     <Button title='Add' onPress={addRandomTask} />
                 </SafeAreaView>

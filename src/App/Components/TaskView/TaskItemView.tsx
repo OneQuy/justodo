@@ -10,9 +10,10 @@ const IsLog = true
 
 const TaskItemView = ({
     task,
-    setFlexZeroForRemovingTask,
+    actionRemoveTask,
 }: {
-    setFlexZeroForRemovingTask: (task: TaskPersistedAndRuntimeData) => void,
+    // actionRemoveTask: (task: TaskPersistedAndRuntimeData, setFlexZeroOrRemoveFromData: boolean) => void,
+    actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData
 }) => {
     const [isShowContent, set_isShowContent] = useState(false)
@@ -39,9 +40,9 @@ const TaskItemView = ({
             set_isShowContent(true)
         }
         else { // remove
-            setFlexZeroForRemovingTask(task)
+            actionRemoveTask(task)
         }
-    }, [setFlexZeroForRemovingTask])
+    }, [actionRemoveTask])
 
     // end flexing animation
 

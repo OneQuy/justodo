@@ -1,32 +1,41 @@
 import { View, StyleSheet } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
 import { CloneObject } from '../../../Common/UtilsTS'
 import { Gap } from '../../Constants/Constants_Outline'
 
+// const IsLog = true
 const IsLog = false
 
 const RowContainerView = ({
     paramTasks,
+    actionRemoveTask,
 }: {
     paramTasks: TaskPersistedData[],
+    actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
 }) => {
     const [currentTasks, set_currentTasks] = useState<TaskPersistedAndRuntimeData[]>([])
 
-    const setFlexZeroForRemovingTask = useCallback((task: TaskPersistedAndRuntimeData) => {
-        if (!task.runtimeData)
-            throw new Error('[ne] setFlexZeroForRemovingTask')
+    // const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData, setFlexZeroOrRemoveFromData: boolean) => {
+    //     if (!task.runtimeData)
+    //         throw new Error('[ne] actionRemoveTask')
 
-        task.runtimeData.targetFlex = 0
+    //     let curTasks: TaskPersistedAndRuntimeData[] = currentTasks
 
-        // update view
+    //     if (setFlexZeroOrRemoveFromData)
+    //         task.runtimeData.targetFlex = 0
+    //     else { // RemoveFromData
+    //         curTasks = curTasks.filter(t => t.runtimeData && t.runtimeData.targetFlex > 0)
+    //     }
 
-        const finalTasks = CloneObject(currentTasks)
+    //     // update view
 
-        set_currentTasks(finalTasks)
-    }, [currentTasks])
+    //     const finalTasks = CloneObject(curTasks)
+
+    //     set_currentTasks(finalTasks)
+    // }, [currentTasks])
 
     // on change tasks data
 
@@ -50,7 +59,7 @@ const RowContainerView = ({
         // remove no use task and update target flex current tasks
 
         for (let i = 0; i < currentTasks.length; i++) {
-            var curTask = currentTasks[0]
+            var curTask = currentTasks[i]
 
             // if cur task NOT included in new tasks => prepare for removing effect
 
@@ -117,7 +126,7 @@ const RowContainerView = ({
                     return (
                         <TaskItemView
                             key={index} task={task}
-                            setFlexZeroForRemovingTask={setFlexZeroForRemovingTask}
+                            actionRemoveTask={actionRemoveTask}
                         />
                     )
                 })
