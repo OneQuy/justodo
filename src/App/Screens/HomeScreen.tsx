@@ -9,6 +9,7 @@ import { CommonStyles } from '../../Common/CommonConstants'
 import LucideIconTextEffectButton from '../../Common/Components/LucideIconTextEffectButton'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Outline } from '../Constants/Constants_Outline'
+import { IconSize } from '../Constants/Constants_Size'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -70,7 +71,7 @@ const HomeScreen = ({
             },
 
             addTaskBtn: {
-                // aspectRatio: 3,
+                padding: Outline.Small,
                 borderWidth: 0,
                 minWidth: '15%',
             }
@@ -98,9 +99,15 @@ const HomeScreen = ({
                 <View style={style.bottomBarView}>
                     {/* add task btn */}
                     <LucideIconTextEffectButton
+                        selectedBackgroundColor={'#000000'}
+                        selectedColorOfTextAndIcon={'#ffffff'}
+                        
+                        // manuallySelected={false}
+                        canHandlePressWhenSelected
+
                         style={style.addTaskBtn}
                         onPress={addRandomTask}
-                        iconProps={{ name: 'Plus' }}
+                        iconProps={{ name: 'Plus', size: IconSize.Normal }}
                     />
                 </View>
             </View>
