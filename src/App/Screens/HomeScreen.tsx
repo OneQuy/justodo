@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../Types'
-import { ArrayRemove, CloneObject, IsValuableArrayOrString, PickRandomElement, RandomInt } from '../../Common/UtilsTS'
+import { CloneObject, IsValuableArrayOrString, RandomInt } from '../../Common/UtilsTS'
 import { IsTaskPersistedDataEqual } from '../Handles/AppUtils'
 
 const HomeScreen = ({
