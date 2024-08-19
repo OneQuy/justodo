@@ -39,7 +39,8 @@ const TaskItemView_Content = ({
             containerStyle={style.master}
             completedCallback={completedShowCallback}
         >
-            <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
+            {/* <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text> */}
+            <Text style={style.taskNameTxt}>{'Todo Task'}</Text>
         </SlideInView>
     )
 }
