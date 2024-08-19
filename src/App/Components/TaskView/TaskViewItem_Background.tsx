@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import ScaleUpView from '../../../Common/Components/Effects/ScaleUpView'
 import ImageBackgroundOrView from '../../../Common/Components/ImageBackgroundOrView'
@@ -10,9 +10,13 @@ const TaskItemView_Background = ({
     isScaleUpOrDown,
 }: {
     task: TaskPersistedAndRuntimeData,
-    completedShowCallback: (isAppearOrRemove: boolean) => void,
+    completedShowCallback: (isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => void,
     isScaleUpOrDown: boolean,
 }) => {
+
+    const _completedShowCallback = useCallback((isAppearOrRemove: boolean) => {
+        completedShowCallback(isAppearOrRemove, task)
+    }, [task, completedShowCallback])
 
     // style
 
@@ -40,7 +44,7 @@ const TaskItemView_Background = ({
     return (
         <ScaleUpView
             containerStyle={style.master}
-            completedCallback={completedShowCallback}
+            completedCallback={_completedShowCallback}
             isScaleUpOrDown={isScaleUpOrDown}
             isSpringOrTiming={false}
             duration={200}

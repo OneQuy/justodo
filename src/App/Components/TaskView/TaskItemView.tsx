@@ -9,8 +9,10 @@ import TaskItemView_Content from './TaskViewItem_Content'
 const IsLog = true
 
 const TaskItemView = ({
-    task
+    task,
+    setFlexZeroForRemovingTask,
 }: {
+    setFlexZeroForRemovingTask: (task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData
 }) => {
     const [isShowContent, set_isShowContent] = useState(false)
@@ -25,13 +27,21 @@ const TaskItemView = ({
 
     // end background animation
 
-    const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
+    const onContentAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
+    }, [])
+
+    // end background animation
+
+    const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => {
         // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
 
         if (isAppearOrRemove) {
             set_isShowContent(true)
         }
-    }, [])
+        else { // remove
+            setFlexZeroForRemovingTask(task)
+        }
+    }, [setFlexZeroForRemovingTask])
 
     // end flexing animation
 
@@ -99,7 +109,7 @@ const TaskItemView = ({
             {
                 isShowContent &&
                 <TaskItemView_Content
-                    completedShowCallback={onBackgroundAnimationEnd}
+                    completedShowCallback={onContentAnimationEnd}
                     task={task}
                 />
             }

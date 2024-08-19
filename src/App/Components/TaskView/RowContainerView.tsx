@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
@@ -14,6 +14,19 @@ const RowContainerView = ({
     paramTasks: TaskPersistedData[],
 }) => {
     const [currentTasks, set_currentTasks] = useState<TaskPersistedAndRuntimeData[]>([])
+
+    const setFlexZeroForRemovingTask = useCallback((task: TaskPersistedAndRuntimeData) => {
+        if (!task.runtimeData)
+            throw new Error('[ne] setFlexZeroForRemovingTask')
+
+        task.runtimeData.targetFlex = 0
+
+        // update view
+
+        const finalTasks = CloneObject(currentTasks)
+
+        set_currentTasks(finalTasks)
+    }, [currentTasks])
 
     // on change tasks data
 
@@ -102,7 +115,10 @@ const RowContainerView = ({
             {
                 currentTasks.map((task, index) => {
                     return (
-                        <TaskItemView key={index} task={task} />
+                        <TaskItemView
+                            key={index} task={task}
+                            setFlexZeroForRemovingTask={setFlexZeroForRemovingTask}
+                        />
                     )
                 })
             }
