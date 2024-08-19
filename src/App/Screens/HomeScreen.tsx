@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import React, { useCallback, useMemo, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
@@ -7,14 +7,17 @@ import { CloneObject, IsValuableArrayOrString, RandomInt } from '../../Common/Ut
 import { IsTaskPersistedDataEqual } from '../Handles/AppUtils'
 import { CommonStyles } from '../../Common/CommonConstants'
 import LucideIconTextEffectButton from '../../Common/Components/LucideIconTextEffectButton'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Outline } from '../Constants/Constants_Outline'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
 }: {
     shouldShowPaywallFirstTime: boolean,
 }) => {
+    const safeAreaInsets = useSafeAreaInsets()
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
-    
+
     const addRandomTask = () => {
         const newTask: TaskPersistedData = {
             uniqueTaskName: RandomInt(0, 9999).toString()
@@ -61,7 +64,9 @@ const HomeScreen = ({
 
             bottomBarView: {
                 flexDirection: 'row',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
+                marginBottom: safeAreaInsets.bottom > 0 ? safeAreaInsets.bottom : Outline.Normal,
+                marginHorizontal: Outline.Normal,
             },
 
             addTaskBtn: {
@@ -70,7 +75,7 @@ const HomeScreen = ({
                 minWidth: '15%',
             }
         })
-    }, [])
+    }, [safeAreaInsets])
 
     return (
         <View style={style.master}>
@@ -94,6 +99,7 @@ const HomeScreen = ({
                     {/* add task btn */}
                     <LucideIconTextEffectButton
                         style={style.addTaskBtn}
+                        onPress={addRandomTask}
                         iconProps={{ name: 'Plus' }}
                     />
                 </View>

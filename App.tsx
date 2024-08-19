@@ -11,6 +11,7 @@ import { StorageKey_ShowedWelcomeScreen } from './src/App/Constants/StorageKey'
 import WelcomeScreen from './src/App/Screens/WelcomeScreen'
 import { PostHogKey_Production } from './Keys'
 import HomeScreen from './src/App/Screens/HomeScreen'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const App = () => {
   const { result } = useAsyncHandle(async () => SplashScreenLoader());
@@ -64,13 +65,15 @@ const App = () => {
 
   return (
     <PostHogProvider apiKey={PostHogKey_Production} autocapture={postHogAutocapture}>
-      <View style={style.master}>
-      {/* <StatusBar translucent backgroundColor="transparent" /> */}
-        {/* main UI app */}
-        <HomeScreen
-          shouldShowPaywallFirstTime={didShowedWelcomeScreenRef.current && !result.subscribedDataOrUndefined}
-        />
-      </View>
+      <SafeAreaProvider>
+        <View style={style.master}>
+          {/* <StatusBar translucent backgroundColor="transparent" /> */}
+          {/* main UI app */}
+          <HomeScreen
+            shouldShowPaywallFirstTime={didShowedWelcomeScreenRef.current && !result.subscribedDataOrUndefined}
+          />
+        </View>
+      </SafeAreaProvider>
     </PostHogProvider>
   )
 }
