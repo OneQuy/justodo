@@ -3,14 +3,14 @@ import React, { useMemo, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
 import { TaskPersistedData } from '../Types'
-import { CloneObject, PickRandomElement, RandomInt } from '../../Common/UtilsTS'
+import { CloneObject, IsValuableArrayOrString, PickRandomElement, RandomInt } from '../../Common/UtilsTS'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
 }: {
     shouldShowPaywallFirstTime: boolean,
 }) => {
-    const [rowTasks, set_rowTasks] = useState<TaskPersistedData[]>([])
+    const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
 
     const addRandomTask = () => {
         const taskNames = [
@@ -26,10 +26,13 @@ const HomeScreen = ({
         }
 
         // console.log('added', newTask);
-        
-        rowTasks.push(newTask)
 
-        set_rowTasks(CloneObject<TaskPersistedData[]>(rowTasks))
+        if (taskRows.length <= 0)
+            taskRows.push([])
+
+        taskRows[0].push(newTask)
+
+        set_taskRows(CloneObject(taskRows))
     }
 
     // style
@@ -50,7 +53,10 @@ const HomeScreen = ({
             <View style={{ position: 'absolute', backgroundColor: 'mintcream', width: '100%', height: '100%' }}>
                 {/* tasks */}
                 <SafeAreaView style={{ flex: 1 }}>
-                    <RowContainerView paramTasks={rowTasks} />
+                    {
+                        IsValuableArrayOrString(taskRows) && IsValuableArrayOrString(taskRows[0]) &&
+                        <RowContainerView paramTasks={taskRows[0]} />
+                    }
                     <Button title='Add' onPress={addRandomTask} />
                 </SafeAreaView>
             </View>
