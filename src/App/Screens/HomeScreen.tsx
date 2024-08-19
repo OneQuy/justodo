@@ -15,7 +15,7 @@ const HomeScreen = ({
 
     const addRandomTask = () => {
         const newTask: TaskPersistedData = {
-            uniqueTaskName: RandomInt(0, 99).toString()
+            uniqueTaskName: RandomInt(0, 9999).toString()
         }
 
         // console.log('added', newTask);
