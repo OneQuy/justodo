@@ -1,6 +1,23 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated, ViewStyle, StyleProp } from 'react-native';
+import { CommonStyles } from '../CommonConstants';
 
+/**
+ * ### usage
+ * ```tsx
+<FlipCard
+    masterStyle={{ flex: 1 }}
+
+    frontView={
+        <View style={{ flex: 1, backgroundColor: RandomColor() }} />
+    }
+
+    backView={
+        <View style={{ flex: 1, backgroundColor: RandomColor() }} />
+    }
+/> 
+ * ```
+ */
 const FlipCard = ({
   duration = 300,
   endFlipCallback,
@@ -8,10 +25,10 @@ const FlipCard = ({
   masterStyle,
 
   frontView,
-  frontViewStyle,
+  frontContainerViewStyle,
 
   backView,
-  backViewStyle,
+  backContainerViewStyle,
 }: {
   duration?: number,
   endFlipCallback?: (flipped: boolean) => void,
@@ -19,10 +36,10 @@ const FlipCard = ({
   masterStyle?: StyleProp<ViewStyle>,
 
   frontView: React.JSX.Element,
-  frontViewStyle?: StyleProp<ViewStyle>,
+  frontContainerViewStyle?: StyleProp<ViewStyle>,
 
   backView: React.JSX.Element,
-  backViewStyle?: StyleProp<ViewStyle>,
+  backContainerViewStyle?: StyleProp<ViewStyle>,
 }) => {
   const [flipped, setFlipped] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -64,12 +81,12 @@ const FlipCard = ({
   return (
     <TouchableWithoutFeedback onPress={flipCard}>
       <View style={masterStyle}>
-        <Animated.View style={[frontViewStyle, frontAnimatedStyle, styles.setup]}>
+        <Animated.View style={[CommonStyles.width100PercentHeight100Percent, frontContainerViewStyle, frontAnimatedStyle, styles.setup]}>
           {
             frontView
           }
         </Animated.View>
-        <Animated.View style={[backViewStyle, backAnimatedStyle, styles.setup]}>
+        <Animated.View style={[CommonStyles.width100PercentHeight100Percent, backContainerViewStyle, backAnimatedStyle, styles.setup]}>
           {
             backView
           }
