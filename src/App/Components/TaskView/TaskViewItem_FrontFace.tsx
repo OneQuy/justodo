@@ -3,13 +3,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
 import { SafeValue } from '../../../Common/UtilsTS'
-import FlipCard from '../../../Common/Components/FlipCard'
-import TaskViewItem_FrontFace from './TaskViewItem_FrontFace'
-import TaskViewItem_BackFace from './TaskViewItem_BackFace'
+import TaskItemView_Background from './TaskViewItem_Background'
+import TaskItemView_Content from './TaskViewItem_Content'
 
 // const IsLog = true
 
-const TaskItemView = ({
+const TaskItemView_FrontFace = ({
     task,
     actionRemoveTask,
     onFlexingAnimationEndItem,
@@ -48,26 +47,6 @@ const TaskItemView = ({
         }
     }, [actionRemoveTask])
 
-    // render front face
-
-    const renderFrontFace = useCallback(() => {
-        return (
-            <TaskViewItem_FrontFace
-                task={task}
-                actionRemoveTask={actionRemoveTask}
-                onFlexingAnimationEndItem={onFlexingAnimationEndItem}
-            />
-        )
-    }, [task, actionRemoveTask, onFlexingAnimationEndItem])
-
-    // render back face
-
-    const renderBackFace = useCallback(() => {
-        return (
-            <TaskViewItem_BackFace />
-        )
-    }, [])
-
     // end flexing animation
 
     const onFlexingAnimationEnd = useCallback((currentValue: number) => {
@@ -104,8 +83,11 @@ const TaskItemView = ({
         return StyleSheet.create({
             master: {
                 backgroundColor: "#fff0f5",
-                // overflow: 'hidden', // for hide text content (TaskItemView_Content) SlideIn effect
+                overflow: 'hidden', // for hide text content (TaskItemView_Content) SlideIn effect
             },
+
+            taskNameTxt: {
+            }
         })
     }, [])
 
@@ -118,12 +100,26 @@ const TaskItemView = ({
 
             onTouchEnd={startRemoveTask}
         >
-            <FlipCard
-                frontView={renderFrontFace()}
-                backView={renderBackFace()}
-            />
+            {/* background */}
+            {
+                isShowBackground &&
+                <TaskItemView_Background
+                    completedShowCallback={onBackgroundAnimationEnd}
+                    task={task}
+                    isScaleUpOrDown={isScaleUpOrDownBackground}
+                />
+            }
+
+            {/* content */}
+            {
+                isShowContent &&
+                <TaskItemView_Content
+                    completedShowCallback={onContentAnimationEnd}
+                    task={task}
+                />
+            }
         </Animated.View>
     )
 }
 
-export default TaskItemView
+export default TaskItemView_FrontFace

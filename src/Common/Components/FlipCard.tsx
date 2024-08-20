@@ -6,8 +6,6 @@ import { CommonStyles } from '../CommonConstants';
  * ### usage
  * ```tsx
 <FlipCard
-    masterStyle={{ flex: 1 }}
-
     frontView={
         <View style={{ flex: 1, backgroundColor: RandomColor() }} />
     }
@@ -22,7 +20,7 @@ const FlipCard = ({
   duration = 300,
   endFlipCallback,
 
-  masterStyle,
+  masterOverideStyle,
 
   frontView,
   frontContainerViewStyle,
@@ -33,7 +31,7 @@ const FlipCard = ({
   duration?: number,
   endFlipCallback?: (flipped: boolean) => void,
 
-  masterStyle?: StyleProp<ViewStyle>,
+  masterOverideStyle?: StyleProp<ViewStyle>,
 
   frontView: React.JSX.Element,
   frontContainerViewStyle?: StyleProp<ViewStyle>,
@@ -80,7 +78,7 @@ const FlipCard = ({
 
   return (
     <TouchableWithoutFeedback onPress={flipCard}>
-      <View style={masterStyle}>
+      <View style={[CommonStyles.flex_1, masterOverideStyle]}>
         <Animated.View style={[CommonStyles.width100PercentHeight100Percent, frontContainerViewStyle, frontAnimatedStyle, styles.setup]}>
           {
             frontView
