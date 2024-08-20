@@ -1,33 +1,43 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
+import React, { useState, useRef, useCallback } from 'react';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated, ViewStyle, StyleProp } from 'react-native';
 
-interface FlipCardProps {
-  frontContent: string;
-  backContent: string;
-}
+const FlipCard = ({
+  duration = 300,
+  endFlipCallback,
 
-const FlipCard: React.FC<FlipCardProps> = ({ frontContent, backContent }) => {
+  masterStyle,
+
+  frontView,
+  frontViewStyle,
+
+  backView,
+  backViewStyle,
+}: {
+  duration?: number,
+  endFlipCallback?: (flipped: boolean) => void,
+
+  masterStyle?: StyleProp<ViewStyle>,
+
+  frontView: React.JSX.Element,
+  frontViewStyle?: StyleProp<ViewStyle>,
+
+  backView: React.JSX.Element,
+  backViewStyle?: StyleProp<ViewStyle>,
+}) => {
   const [flipped, setFlipped] = useState(false);
-  const animatedValue = new Animated.Value(0);
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
-  const flipCard = () => {
-    console.log(flipped);
+  const flipCard = useCallback(() => {
+    const toValue = flipped ? 0 : 1
 
-    if (flipped) {
-      Animated.timing(animatedValue, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(animatedValue, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
+    Animated.timing(animatedValue, {
+      toValue,
+      duration,
+      useNativeDriver: true,
+    }).start(() => endFlipCallback?.(!flipped))
+
     setFlipped(!flipped);
-  };
+  }, [flipped, duration, endFlipCallback])
 
   const frontAnimatedStyle = {
     transform: [
@@ -53,12 +63,16 @@ const FlipCard: React.FC<FlipCardProps> = ({ frontContent, backContent }) => {
 
   return (
     <TouchableWithoutFeedback onPress={flipCard}>
-      <View style={styles.container}>
-        <Animated.View style={[styles.card, frontAnimatedStyle]}>
-          <Text style={styles.text}>{frontContent}</Text>
+      <View style={masterStyle}>
+        <Animated.View style={[frontViewStyle, frontAnimatedStyle, styles.setup]}>
+          {
+            frontView
+          }
         </Animated.View>
-        <Animated.View style={[styles.card, styles.backCard, backAnimatedStyle]}>
-          <Text style={styles.text}>{backContent}</Text>
+        <Animated.View style={[backViewStyle, backAnimatedStyle, styles.setup]}>
+          {
+            backView
+          }
         </Animated.View>
       </View>
     </TouchableWithoutFeedback>
@@ -66,29 +80,10 @@ const FlipCard: React.FC<FlipCardProps> = ({ frontContent, backContent }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: 200,
-    height: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  card: {
+  setup: {
     position: 'absolute',
-    width: 200,
-    height: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'lightblue',
-    borderRadius: 10,
     backfaceVisibility: 'hidden',
   },
-  backCard: {
-    backgroundColor: 'lightcoral',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
+})
 
 export default FlipCard;
