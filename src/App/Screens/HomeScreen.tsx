@@ -101,7 +101,7 @@ const HomeScreen = ({
                     <LucideIconTextEffectButton
                         selectedBackgroundColor={'#000000'}
                         selectedColorOfTextAndIcon={'#ffffff'}
-                        
+
                         // manuallySelected={false}
                         canHandlePressWhenSelected
 
