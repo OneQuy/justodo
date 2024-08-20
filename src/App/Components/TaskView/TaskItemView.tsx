@@ -64,7 +64,6 @@ const TaskItemView = ({
     const {
         animatedValue: flexingAnimatedValue,
         startAnimation: flexingStartAnimation,
-        currentValueRef: flexingCurrentValueRef
     } = useAnimatedValue(0, onFlexingAnimationEnd)
 
     // on changed target flex
