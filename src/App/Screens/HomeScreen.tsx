@@ -89,6 +89,7 @@ const HomeScreen = ({
                     {
                         IsValuableArrayOrString(taskRows) && IsValuableArrayOrString(taskRows[0]) &&
                         <RowContainerView
+                            isFirstRow={true}
                             paramTasks={taskRows[0]}
                             actionRemoveTask={actionRemoveTask}
                         />

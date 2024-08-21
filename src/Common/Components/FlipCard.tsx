@@ -84,7 +84,7 @@ const FlipCard = ({
             frontView
           }
         </Animated.View>
-        <Animated.View style={[CommonStyles.width100PercentHeight100Percent, backContainerViewStyle, backAnimatedStyle, styles.setup]}>
+        <Animated.View pointerEvents={'none'} style={[CommonStyles.width100PercentHeight100Percent, backContainerViewStyle, backAnimatedStyle, styles.setup]}>
           {
             backView
           }

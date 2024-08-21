@@ -11,9 +11,11 @@ import TaskViewItem_BackFace from './TaskViewItem_BackFace'
 
 const TaskItemView = ({
     task,
+    isFirstRow,
     actionRemoveTask,
     onFlexingAnimationEndItem,
 }: {
+    isFirstRow: boolean,
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
     onFlexingAnimationEndItem: (isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData
@@ -25,12 +27,13 @@ const TaskItemView = ({
     const renderFrontFace = useCallback(() => {
         return (
             <TaskViewItem_FrontFace
+                isFirstRow={isFirstRow}
                 task={task}
                 actionRemoveTask={actionRemoveTask}
                 isActiveBackgroundFrontFace={isActiveBackgroundFrontFace}
             />
         )
-    }, [task, isActiveBackgroundFrontFace, actionRemoveTask, onFlexingAnimationEndItem])
+    }, [task, isFirstRow, isActiveBackgroundFrontFace, actionRemoveTask, onFlexingAnimationEndItem])
 
     // render back face
 

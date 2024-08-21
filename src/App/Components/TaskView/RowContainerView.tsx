@@ -10,9 +10,11 @@ import { Gap } from '../../Constants/Constants_Outline'
 const IsLog = false
 
 const RowContainerView = ({
+    isFirstRow,
     paramTasks,
     actionRemoveTask,
 }: {
+    isFirstRow: boolean,
     paramTasks: TaskPersistedData[],
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
 }) => {
@@ -131,6 +133,7 @@ const RowContainerView = ({
                     return (
                         <TaskItemView
                             key={task.persistedData.uniqueTaskName}
+                            isFirstRow={isFirstRow}
                             task={task}
                             actionRemoveTask={actionRemoveTask}
                             onFlexingAnimationEndItem={onFlexingAnimationEndItem}

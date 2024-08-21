@@ -8,10 +8,12 @@ import TaskItemView_Menu from './TaskViewItem_Menu'
 // const IsLog = true
 
 const TaskItemView_FrontFace = ({
+    isFirstRow,
     task,
     actionRemoveTask,
     isActiveBackgroundFrontFace,
 }: {
+    isFirstRow: boolean,
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData,
     isActiveBackgroundFrontFace: boolean,
@@ -21,12 +23,12 @@ const TaskItemView_FrontFace = ({
 
     const [isScaleUpOrDownBackground, set_isScaleUpOrDownBackground] = useState(true)
 
-    //// remove task
+    // remove task
 
-    // const startRemoveTask = useCallback(() => {
-    //     set_isActiveContent(false)
-    //     set_isScaleUpOrDownBackground(false)
-    // }, [])
+    const startRemoveTask = useCallback(() => {
+        set_isActiveContent(false)
+        set_isScaleUpOrDownBackground(false)
+    }, [])
 
     // end background animation
 
@@ -86,7 +88,9 @@ const TaskItemView_FrontFace = ({
             {
                 isActiveMenu &&
                 <TaskItemView_Menu
+                    isFirstRow={isFirstRow}
                     task={task}
+                    startRemoveTask={startRemoveTask}
                 />
             }
         </View>
