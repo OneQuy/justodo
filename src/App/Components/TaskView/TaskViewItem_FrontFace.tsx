@@ -3,7 +3,6 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import TaskItemView_Background from './TaskViewItem_Background'
 import TaskItemView_Content from './TaskViewItem_Content'
-import TaskItemView_Menu from './TaskViewItem_Menu'
 
 // const IsLog = true
 
@@ -79,18 +78,9 @@ const TaskItemView_FrontFace = ({
             {
                 isActiveContent &&
                 <TaskItemView_Content
+                    isFirstRow={isFirstRow}
                     completedShowCallback={onContentAnimationEnd}
                     task={task}
-                />
-            }
-
-            {/* menu */}
-            {
-                isActiveContent &&
-                <TaskItemView_Menu
-                    isFirstRow={isFirstRow}
-                    task={task}
-                    startRemoveTask={startRemoveTask}
                 />
             }
         </View>

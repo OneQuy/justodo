@@ -4,9 +4,11 @@ import { TaskPersistedAndRuntimeData } from '../../Types'
 import SlideInView from '../../../Common/Components/Effects/SlideInView'
 
 const TaskItemView_Content = ({
+    isFirstRow,
     task,
     completedShowCallback,
 }: {
+    isFirstRow: boolean,
     task: TaskPersistedAndRuntimeData,
     completedShowCallback: (isAppearOrRemove: boolean) => void,
 }) => {
