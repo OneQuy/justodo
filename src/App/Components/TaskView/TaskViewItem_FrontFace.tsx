@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import TaskItemView_Background from './TaskViewItem_Background'
 import TaskItemView_Content from './TaskViewItem_Content'
+import TaskItemView_Menu from './TaskViewItem_Menu'
 
 // const IsLog = true
 
@@ -15,20 +16,24 @@ const TaskItemView_FrontFace = ({
     task: TaskPersistedAndRuntimeData,
     isActiveBackgroundFrontFace: boolean,
 }) => {
-    const [isShowContent, set_isShowContent] = useState(false)
+    const [isActiveContent, set_isActiveContent] = useState(false)
+    const [isActiveMenu, set_isActiveMenu] = useState(false)
 
     const [isScaleUpOrDownBackground, set_isScaleUpOrDownBackground] = useState(true)
 
     //// remove task
 
     // const startRemoveTask = useCallback(() => {
-    //     set_isShowContent(false)
+    //     set_isActiveContent(false)
     //     set_isScaleUpOrDownBackground(false)
     // }, [])
 
     // end background animation
 
     const onContentAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
+        if (isAppearOrRemove) { // start show menu
+            set_isActiveMenu(true)
+        }
     }, [])
 
     // end background animation
@@ -37,7 +42,7 @@ const TaskItemView_FrontFace = ({
         // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
 
         if (isAppearOrRemove) {
-            set_isShowContent(true)
+            set_isActiveContent(true)
         }
         else { // remove
             actionRemoveTask(task)
@@ -70,9 +75,17 @@ const TaskItemView_FrontFace = ({
 
             {/* content */}
             {
-                isShowContent &&
+                isActiveContent &&
                 <TaskItemView_Content
                     completedShowCallback={onContentAnimationEnd}
+                    task={task}
+                />
+            }
+
+            {/* menu */}
+            {
+                isActiveMenu &&
+                <TaskItemView_Menu
                     task={task}
                 />
             }
