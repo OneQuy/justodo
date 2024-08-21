@@ -86,7 +86,7 @@ const TaskItemView_FrontFace = ({
 
             {/* menu */}
             {
-                isActiveMenu &&
+                isActiveContent &&
                 <TaskItemView_Menu
                     isFirstRow={isFirstRow}
                     task={task}

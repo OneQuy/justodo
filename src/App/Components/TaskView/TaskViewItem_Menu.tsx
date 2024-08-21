@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import LucideIconTextEffectButton from '../../../Common/Components/LucideIconTextEffectButton'
 import { IconSize } from '../../Constants/Constants_Size'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const TaskItemView_Menu = ({
     isFirstRow,
@@ -13,6 +14,7 @@ const TaskItemView_Menu = ({
     task: TaskPersistedAndRuntimeData,
     startRemoveTask: () => void,
 }) => {
+    const insets = useSafeAreaInsets()
 
     // style
 
@@ -22,9 +24,9 @@ const TaskItemView_Menu = ({
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
+                padding: isFirstRow ? insets.top : 0,
 
-
-                backgroundColor: "#bc8f",
+                // backgroundColor: "#bc8f",
             },
 
             taskNameTxt: {
@@ -38,7 +40,7 @@ const TaskItemView_Menu = ({
                 minWidth: '15%',
             }
         })
-    }, [])
+    }, [isFirstRow, insets])
 
     return (
         <View style={style.master}>
@@ -47,8 +49,8 @@ const TaskItemView_Menu = ({
                 selectedBackgroundColor={'#000000'}
                 selectedColorOfTextAndIcon={'#ffffff'}
 
-                style={style.addTaskBtn}
-                onPress={() => { console.log(33) }}
+                // style={style.addTaskBtn}
+                onPress={startRemoveTask}
                 iconProps={{ name: 'Plus', size: IconSize.Normal }}
             />
         </View>
