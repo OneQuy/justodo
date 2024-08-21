@@ -57,12 +57,7 @@ const TaskItemView_FrontFace = ({
     }, [])
 
     return (
-        <View
-            style={[
-                style.master,
-            ]}
-
-        >
+        <View style={style.master}>
             {/* background */}
             {
                 isActiveBackgroundFrontFace &&
