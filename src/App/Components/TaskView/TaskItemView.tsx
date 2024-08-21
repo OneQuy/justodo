@@ -27,7 +27,6 @@ const TaskItemView = ({
             <TaskViewItem_FrontFace
                 task={task}
                 actionRemoveTask={actionRemoveTask}
-                onFlexingAnimationEndItem={onFlexingAnimationEndItem}
                 isActiveBackgroundFrontFace={isActiveBackgroundFrontFace}
             />
         )

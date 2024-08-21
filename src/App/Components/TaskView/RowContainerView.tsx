@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../../Types'
 import TaskItemView from './TaskItemView'
 import { CalcTargetFlex, IsTaskPersistedDataEqual } from '../../Handles/AppUtils'
-import { ArrayRemove, ArrayRemovePredicate, CloneObject, LogStringify } from '../../../Common/UtilsTS'
+import { ArrayRemove, ArrayRemovePredicate, CloneObject } from '../../../Common/UtilsTS'
 import { Gap } from '../../Constants/Constants_Outline'
 
 // const IsLog = true

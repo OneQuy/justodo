@@ -1,8 +1,6 @@
-import { StyleSheet, Animated, View } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
-import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
-import { SafeValue } from '../../../Common/UtilsTS'
 import TaskItemView_Background from './TaskViewItem_Background'
 import TaskItemView_Content from './TaskViewItem_Content'
 
@@ -11,11 +9,9 @@ import TaskItemView_Content from './TaskViewItem_Content'
 const TaskItemView_FrontFace = ({
     task,
     actionRemoveTask,
-    onFlexingAnimationEndItem,
     isActiveBackgroundFrontFace,
 }: {
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
-    onFlexingAnimationEndItem: (isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData,
     isActiveBackgroundFrontFace: boolean,
 }) => {
