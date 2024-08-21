@@ -18,35 +18,7 @@ const TaskItemView = ({
     onFlexingAnimationEndItem: (isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => void,
     task: TaskPersistedAndRuntimeData
 }) => {
-    const [isShowContent, set_isShowContent] = useState(false)
-
-    const [isShowBackground, set_isShowBackground] = useState(false)
-    const [isScaleUpOrDownBackground, set_isScaleUpOrDownBackground] = useState(true)
-
-    // remove 
-
-    const startRemoveTask = useCallback(() => {
-        set_isShowContent(false)
-        set_isScaleUpOrDownBackground(false)
-    }, [])
-
-    // end background animation
-
-    const onContentAnimationEnd = useCallback((isAppearOrRemove: boolean) => {
-    }, [])
-
-    // end background animation
-
-    const onBackgroundAnimationEnd = useCallback((isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => {
-        // if (IsLog) console.log('[onBackgroundAnimationEnd] isAppearOrRemove', isAppearOrRemove);
-
-        if (isAppearOrRemove) {
-            set_isShowContent(true)
-        }
-        else { // remove
-            actionRemoveTask(task)
-        }
-    }, [actionRemoveTask])
+    const [isActiveBackgroundFrontFace, set_isActiveBackgroundFrontFace] = useState(false)
 
     // render front face
 
@@ -56,9 +28,10 @@ const TaskItemView = ({
                 task={task}
                 actionRemoveTask={actionRemoveTask}
                 onFlexingAnimationEndItem={onFlexingAnimationEndItem}
+                isActiveBackgroundFrontFace={isActiveBackgroundFrontFace}
             />
         )
-    }, [task, actionRemoveTask, onFlexingAnimationEndItem])
+    }, [task, isActiveBackgroundFrontFace, actionRemoveTask, onFlexingAnimationEndItem])
 
     // render back face
 
@@ -74,7 +47,7 @@ const TaskItemView = ({
         const isAppearOrRemove = currentValue > 0
 
         if (isAppearOrRemove) { // appear => start background shows up effect
-            set_isShowBackground(true)
+            set_isActiveBackgroundFrontFace(true)
         }
 
         onFlexingAnimationEndItem(isAppearOrRemove, task)
@@ -115,8 +88,6 @@ const TaskItemView = ({
                 style.master,
                 { flex: flexingAnimatedValue }
             ]}
-
-            onTouchEnd={startRemoveTask}
         >
             <FlipCard
                 frontView={renderFrontFace()}

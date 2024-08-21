@@ -1,4 +1,4 @@
-import { StyleSheet, Animated } from 'react-native'
+import { StyleSheet, Animated, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import useAnimatedValue from '../../../Common/Hooks/useAnimatedValue'
@@ -12,22 +12,23 @@ const TaskItemView_FrontFace = ({
     task,
     actionRemoveTask,
     onFlexingAnimationEndItem,
+    isActiveBackgroundFrontFace,
 }: {
     actionRemoveTask: (task: TaskPersistedAndRuntimeData) => void,
     onFlexingAnimationEndItem: (isAppearOrRemove: boolean, task: TaskPersistedAndRuntimeData) => void,
-    task: TaskPersistedAndRuntimeData
+    task: TaskPersistedAndRuntimeData,
+    isActiveBackgroundFrontFace: boolean,
 }) => {
     const [isShowContent, set_isShowContent] = useState(false)
 
-    const [isShowBackground, set_isShowBackground] = useState(false)
     const [isScaleUpOrDownBackground, set_isScaleUpOrDownBackground] = useState(true)
 
-    // remove 
+    //// remove task
 
-    const startRemoveTask = useCallback(() => {
-        set_isShowContent(false)
-        set_isScaleUpOrDownBackground(false)
-    }, [])
+    // const startRemoveTask = useCallback(() => {
+    //     set_isShowContent(false)
+    //     set_isScaleUpOrDownBackground(false)
+    // }, [])
 
     // end background animation
 
@@ -47,62 +48,28 @@ const TaskItemView_FrontFace = ({
         }
     }, [actionRemoveTask])
 
-    // end flexing animation
-
-    const onFlexingAnimationEnd = useCallback((currentValue: number) => {
-        const isAppearOrRemove = currentValue > 0
-
-        if (isAppearOrRemove) { // appear => start background shows up effect
-            set_isShowBackground(true)
-        }
-
-        onFlexingAnimationEndItem(isAppearOrRemove, task)
-    }, [task, onFlexingAnimationEndItem])
-
-    // flexing vars
-
-    const {
-        animatedValue: flexingAnimatedValue,
-        startAnimation: flexingStartAnimation,
-    } = useAnimatedValue(0, onFlexingAnimationEnd)
-
-    // on changed target flex
-
-    useEffect(() => {
-        const targetFlex = SafeValue(task.runtimeData?.targetFlex, -1)
-
-        if (targetFlex < 0)
-            return
-
-        flexingStartAnimation(targetFlex)
-    }, [task.runtimeData?.targetFlex])
-
     // style
 
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: "#fff0f5",
+                flex: 1,
+                backgroundColor: "#afeeee",
                 overflow: 'hidden', // for hide text content (TaskItemView_Content) SlideIn effect
             },
-
-            taskNameTxt: {
-            }
         })
     }, [])
 
     return (
-        <Animated.View
+        <View
             style={[
                 style.master,
-                { flex: flexingAnimatedValue }
             ]}
 
-            onTouchEnd={startRemoveTask}
         >
             {/* background */}
             {
-                isShowBackground &&
+                isActiveBackgroundFrontFace &&
                 <TaskItemView_Background
                     completedShowCallback={onBackgroundAnimationEnd}
                     task={task}
@@ -118,7 +85,7 @@ const TaskItemView_FrontFace = ({
                     task={task}
                 />
             }
-        </Animated.View>
+        </View>
     )
 }
 
