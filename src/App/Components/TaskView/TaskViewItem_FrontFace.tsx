@@ -78,6 +78,7 @@ const TaskItemView_FrontFace = ({
             {
                 isActiveContent &&
                 <TaskItemView_Content
+                    startRemoveTask={startRemoveTask}
                     isFirstRow={isFirstRow}
                     completedShowCallback={onContentAnimationEnd}
                     task={task}
