@@ -62,7 +62,7 @@ const TaskItemView_Content = ({
 
                     // style={style.addTaskBtn}
                     onPress={startRemoveTask}
-                    iconProps={{ name: 'Plus', size: IconSize.Normal }}
+                    iconProps={{ name: 'X', size: IconSize.Normal }}
                 />
 
                 {/* task name */}
