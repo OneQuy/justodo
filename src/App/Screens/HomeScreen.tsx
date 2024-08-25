@@ -13,6 +13,7 @@ import { LucideIcon } from '../../Common/Components/LucideIcon'
 import { CachedMeasure } from '../../Common/PreservedMessure'
 import ScaleUpView from '../../Common/Components/Effects/ScaleUpView'
 import { Color_BG, Color_Text } from '../Hooks/useTheme'
+import AddTaskPopup from '../Components/TaskView/AddTaskPopup'
 
 const ShowAddTaskPopupDuration = 300
 
@@ -47,7 +48,7 @@ const HomeScreen = ({
         set_taskRows(CloneObject(taskRows))
     }
 
-    const startCloseAddTaskPopup = useCallback(() => {
+    const startCloseAddTaskPopup = useCallback((taskToAdd: TaskPersistedData | undefined) => {
         set_enableInteraction(false)
         set_toTargetOrOriginAddTaskPopup(true)
         set_isScaleUpOrDownPlusIconAddTaskBtn(true)
@@ -180,24 +181,10 @@ const HomeScreen = ({
                                 />
                             }
 
-                            contentView={ // this maybe animated opacity
-                                <View
-                                    style={[
-                                        // must
-                                        CommonStyles.width100PercentHeight100Percent, // must 100%
-
-                                        // optionals
-                                        {
-                                        }
-                                    ]}
-                                >
-                                    <Text style={{ color: Color_Text }}>hehehe</Text>
-                                    <Text style={{ color: Color_Text }}>hehehe</Text>
-                                    <Text style={{ color: Color_Text }}>hehehe</Text>
-                                    <Text style={{ color: Color_Text }}>hehehe</Text>
-                                    <Text style={{ color: Color_Text }}>hehehe</Text>
-                                    <Button title='close' onPress={startCloseAddTaskPopup} />
-                                </View>
+                            contentView={ // this maybe animated opacity // must width & height 100%
+                                <AddTaskPopup
+                                    startCloseAddTaskPopup={startCloseAddTaskPopup}
+                                />
                             }
 
                             autoAnimateOnLayout={true}
