@@ -226,7 +226,7 @@ const SimpleSharedElements = ({
                         undefined,
                 ]}
             >
-                {/* opacity view */}
+                {/* background view */}
                 <View
                     style={[
                         CommonStyles.width100PercentHeight100Percent,
@@ -235,7 +235,7 @@ const SimpleSharedElements = ({
                     {backgroundView}
                 </View>
 
-                {/* opacity view */}
+                {/* opacity animated view */}
                 <Animated.View
                     style={[
                         CommonStyles.width100PercentHeight100Percent,
