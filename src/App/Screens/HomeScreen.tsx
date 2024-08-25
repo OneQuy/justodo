@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Text, Button } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
@@ -30,28 +30,23 @@ const HomeScreen = ({
     const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
     const [toTargetOrOriginAddTaskPopup, set_toTargetOrOriginAddTaskPopup] = useState(false)
     const [isScaleUpOrDownPlusIconAddTaskBtn, set_isScaleUpOrDownPlusIconAddTaskBtn] = useState(true)
+    const taskWaitFinishAnimationToAdd = useRef<TaskPersistedData | undefined>()
 
-    const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
-
-    const addRandomTask = () => {
-        const newTask: TaskPersistedData = {
-            uniqueTaskName: RandomInt(0, 9999).toString()
-        }
-
-        // console.log('added', newTask);
-
+    const addTask = useCallback((newTask: TaskPersistedData) => {
         if (taskRows.length <= 0)
             taskRows.push([])
 
         taskRows[0].push(newTask)
 
         set_taskRows(CloneObject(taskRows))
-    }
+    }, [taskRows])
 
     const startCloseAddTaskPopup = useCallback((taskToAdd: TaskPersistedData | undefined) => {
         set_enableInteraction(false)
         set_toTargetOrOriginAddTaskPopup(true)
         set_isScaleUpOrDownPlusIconAddTaskBtn(true)
+
+        taskWaitFinishAnimationToAdd.current = taskToAdd
     }, [])
 
     const startShowAddTaskPopup = useCallback(() => {
@@ -67,11 +62,16 @@ const HomeScreen = ({
         if (toTargetOrOrigin) { // closed popup
             set_showAddTaskPopup(false)
             set_enableInteraction(true)
+
+            if (taskWaitFinishAnimationToAdd.current) {
+                addTask(taskWaitFinishAnimationToAdd.current)
+                taskWaitFinishAnimationToAdd.current = undefined
+            }
         }
         else { // showing popup
             set_enableInteraction(true)
         }
-    }, [])
+    }, [addTask])
 
     const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData) => {
         for (let row of taskRows) {
@@ -193,7 +193,6 @@ const HomeScreen = ({
                             duration={ShowAddTaskPopupDuration}
                             isSpringOrTiming={false}
                             completedCallback={completedCallbackAddTaskPopupAnimation}
-                            doAnimation={startAnimate}
                         />
                     </View>
                 }

@@ -14,20 +14,22 @@ const AddTaskPopup = ({
     startCloseAddTaskPopup: (taskToAdd: TaskPersistedData | undefined) => void,
 }) => {
     const texts = useLocalText()
-    const [task, set_task] = useState<TaskPersistedData | undefined>()
+    // const [task, set_task] = useState<TaskPersistedData | undefined>()
     const [taskName, set_taskName] = useState('')
 
     const validTaskName = taskName.length > 0
 
     const onPressAddTask = useCallback(() => {
         if (validTaskName) {
-            startCloseAddTaskPopup(task)
+            startCloseAddTaskPopup({
+                uniqueTaskName: taskName,
+            })
         }
         else { }
-    }, [task, validTaskName, startCloseAddTaskPopup, taskName])
-    
+    }, [validTaskName, startCloseAddTaskPopup, taskName])
+
     const onPressCancel = useCallback(() => {
-            startCloseAddTaskPopup(undefined)
+        startCloseAddTaskPopup(undefined)
     }, [startCloseAddTaskPopup])
 
     const style = useMemo(() => {
@@ -53,7 +55,7 @@ const AddTaskPopup = ({
 
             btnsView: {
                 gap: Gap.Normal,
-            }, 
+            },
 
             addTaskBtn: {
                 padding: Outline.Normal,
