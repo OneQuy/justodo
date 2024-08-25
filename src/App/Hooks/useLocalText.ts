@@ -37,6 +37,9 @@ const eng = {
   // welcome_item_3: "A total of up to ### words to learn",
   // start_text: "Okayyyyyy",
 
+  task_name: 'Task name',
+  add_task: 'Add task',
+
   popup_error: PopupTitleError,
   [NoNotificationPermissionLocalKey]: NoPermissionText,
   fail_download: 'Fail to download.',
