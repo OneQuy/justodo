@@ -12,6 +12,7 @@ import SimpleSharedElements from '../../Common/Components/Effects/SimpleSharedEl
 import { LucideIcon } from '../../Common/Components/LucideIcon'
 import { CachedMeasure } from '../../Common/PreservedMessure'
 import ScaleUpView from '../../Common/Components/Effects/ScaleUpView'
+import { Color_BG, Color_Text } from '../Hooks/useTheme'
 
 const ShowAddTaskPopupDuration = 300
 
@@ -109,7 +110,7 @@ const HomeScreen = ({
 
             addTaskBtn: {
                 padding: Outline.Small,
-                backgroundColor: 'black',
+                backgroundColor: Color_BG,
                 minWidth: '17%',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -166,7 +167,7 @@ const HomeScreen = ({
 
                                         // optionals
                                         {
-                                            backgroundColor: 'black',
+                                            backgroundColor: Color_BG,
                                         }
                                     ]}
                                 />
@@ -183,11 +184,11 @@ const HomeScreen = ({
                                         }
                                     ]}
                                 >
-                                    <Text style={{ color: 'white' }}>hehehe</Text>
-                                    <Text style={{ color: 'white' }}>hehehe</Text>
-                                    <Text style={{ color: 'white' }}>hehehe</Text>
-                                    <Text style={{ color: 'white' }}>hehehe</Text>
-                                    <Text style={{ color: 'white' }}>hehehe</Text>
+                                    <Text style={{ color: Color_Text }}>hehehe</Text>
+                                    <Text style={{ color: Color_Text }}>hehehe</Text>
+                                    <Text style={{ color: Color_Text }}>hehehe</Text>
+                                    <Text style={{ color: Color_Text }}>hehehe</Text>
+                                    <Text style={{ color: Color_Text }}>hehehe</Text>
                                     <Button title='close' onPress={startCloseAddTaskPopup} />
                                 </View>
                             }
@@ -221,7 +222,7 @@ const HomeScreen = ({
                                 duration={ShowAddTaskPopupDuration}
                                 isSpringOrTiming={false}
                             >
-                                <LucideIcon name='Plus' color={'white'} />
+                                <LucideIcon name='Plus' color={Color_Text} />
                             </ScaleUpView>
                         </View>
                     </TouchableOpacity>
