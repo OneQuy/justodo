@@ -1,5 +1,5 @@
-import { View, StyleSheet } from 'react-native'
-import React, { useCallback, useMemo, useState } from 'react'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../Types'
@@ -10,6 +10,9 @@ import LucideIconTextEffectButton from '../../Common/Components/LucideIconTextEf
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Outline } from '../Constants/Constants_Outline'
 import { IconSize } from '../Constants/Constants_Size'
+import { CachedMeassure } from '../../Common/PreservedMessure'
+import SimpleSharedElements from '../../Common/Components/Effects/SimpleSharedElements'
+import { LucideIcon } from '../../Common/Components/LucideIcon'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -18,6 +21,10 @@ const HomeScreen = ({
 }) => {
     const safeAreaInsets = useSafeAreaInsets()
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
+    const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
+    const addTaskBtnCachedMeassure = useRef<CachedMeassure>(new CachedMeassure(true))
+
+    const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
 
     const addRandomTask = () => {
         const newTask: TaskPersistedData = {
@@ -68,12 +75,17 @@ const HomeScreen = ({
                 justifyContent: 'flex-end',
                 marginBottom: safeAreaInsets.bottom > 0 ? safeAreaInsets.bottom : Outline.Normal,
                 marginHorizontal: Outline.Normal,
+
+                // backgroundColor: 'pink',
+                // opacity: 0.7,
             },
 
             addTaskBtn: {
                 padding: Outline.Small,
-                borderWidth: 0,
-                minWidth: '15%',
+                backgroundColor: 'black',
+                minWidth: '17%',
+                justifyContent: 'center',
+                alignItems: 'center',
             }
         })
     }, [safeAreaInsets])
@@ -97,20 +109,50 @@ const HomeScreen = ({
                 </View>
 
                 {/* bottom bar */}
-                <View style={style.bottomBarView}>
+                <View
+                    ref={addTaskBtnCachedMeassure.current.theRef}
+                    style={style.bottomBarView}
+                >
                     {/* add task btn */}
-                    <LucideIconTextEffectButton
-                        selectedBackgroundColor={'#000000'}
-                        selectedColorOfTextAndIcon={'#ffffff'}
-
-                        // manuallySelected={false}
-                        canHandlePressWhenSelected
-
-                        style={style.addTaskBtn}
-                        onPress={addRandomTask}
-                        iconProps={{ name: 'Plus', size: IconSize.Normal }}
-                    />
+                    <TouchableOpacity>
+                        <View
+                            style={style.addTaskBtn}
+                        >
+                            <LucideIcon name='Plus' color={'white'} />
+                        </View>
+                    </TouchableOpacity>
                 </View>
+
+                {
+                    showAddTaskPopup &&
+                    <View pointerEvents='none' style={CommonStyles.width100Percent_Height100Percent_PositionAbsolute_JustifyContentCenter_AlignItemsCenter}>
+                        <SimpleSharedElements
+                            containerStyle={{
+                                // flex: 1,
+
+                                height: 500,
+                                width: 300,
+
+                                backgroundColor: 'whitesmoke'
+                            }}
+
+                            children={
+                                <View
+                                    style={{
+                                        // flex: 1,
+                                        height: '100%',
+                                        width: '100%',
+                                        backgroundColor: 'green'
+                                    }}
+                                />
+                            }
+
+                            targetCachedMeassure={addTaskBtnCachedMeassure.current}
+
+                            doAnimation={startAnimate}
+                        />
+                    </View>
+                }
             </View>
         </View>
     )
