@@ -11,6 +11,9 @@ import { Outline } from '../Constants/Constants_Outline'
 import SimpleSharedElements from '../../Common/Components/Effects/SimpleSharedElements'
 import { LucideIcon } from '../../Common/Components/LucideIcon'
 import { CachedMeasure } from '../../Common/PreservedMessure'
+import ScaleUpView from '../../Common/Components/Effects/ScaleUpView'
+
+const ShowAddTaskPopupDuration = 300
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -23,6 +26,7 @@ const HomeScreen = ({
 
     const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
     const [addTaskPopupStateOpenOrClose, set_addTaskPopupStateOpenOrClose] = useState(false)
+    const [isScaleUpOrDownPlusIconAddTaskBtn, set_isScaleUpOrDownPlusIconAddTaskBtn] = useState(true)
 
     const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
 
@@ -41,9 +45,19 @@ const HomeScreen = ({
         set_taskRows(CloneObject(taskRows))
     }
 
+    const onPressAddTaskBtn = useCallback(() => {
+        set_addTaskPopupStateOpenOrClose(t => !t)
+        set_isScaleUpOrDownPlusIconAddTaskBtn(t => !t)
+
+        // if (isScaleUpOrDownPlusIconAddTaskBtn)
+        //     set_isScaleUpOrDownPlusIconAddTaskBtn(false)
+    }, [isScaleUpOrDownPlusIconAddTaskBtn])
+
     const completedCallbackAddTaskPopupAnimation = useCallback((toTargetOrOrigin: boolean) => {
         // console.log(toTargetOrOrigin);
 
+        if (toTargetOrOrigin)
+            set_isScaleUpOrDownPlusIconAddTaskBtn(true)
     }, [])
 
     const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData) => {
@@ -174,8 +188,8 @@ const HomeScreen = ({
 
                             toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
                             targetCachedMeasure={addTaskBtnCachedMeasure.current}
-                            // duration={2000}
-                            isSpringOrTiming={true}
+                            duration={ShowAddTaskPopupDuration}
+                            isSpringOrTiming={false}
                             completedCallback={completedCallbackAddTaskPopupAnimation}
                             doAnimation={startAnimate}
                         />
@@ -188,13 +202,19 @@ const HomeScreen = ({
                 >
                     {/* add task btn */}
                     <TouchableOpacity
-                        onPress={() => set_addTaskPopupStateOpenOrClose(t => !t)}
+                        onPress={onPressAddTaskBtn}
                     >
                         <View
                             ref={addTaskBtnCachedMeasure.current.theRef}
                             style={style.addTaskBtn}
                         >
-                            <LucideIcon name='Plus' color={'white'} />
+                            <ScaleUpView
+                                isScaleUpOrDown={isScaleUpOrDownPlusIconAddTaskBtn}
+                                duration={ShowAddTaskPopupDuration}
+                                isSpringOrTiming={false}
+                            >
+                                <LucideIcon name='Plus' color={'white'} />
+                            </ScaleUpView>
                         </View>
                     </TouchableOpacity>
                 </View>
