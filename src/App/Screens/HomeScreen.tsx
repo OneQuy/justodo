@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, Button } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
@@ -45,13 +45,18 @@ const HomeScreen = ({
         set_taskRows(CloneObject(taskRows))
     }
 
-    const onPressAddTaskBtn = useCallback(() => {
+    const startCloseAddTaskPopup = useCallback(() => {
+        set_toTargetOrOriginAddTaskPopup(true)
+        set_isScaleUpOrDownPlusIconAddTaskBtn(false)
+    }, [])
+
+    const startShowAddTaskPopup = useCallback(() => {
         if (!showAddTaskPopup) { // not showed yet
             set_showAddTaskPopup(true)
-            set_toTargetOrOriginAddTaskPopup(true)
+            set_toTargetOrOriginAddTaskPopup(false)
             set_isScaleUpOrDownPlusIconAddTaskBtn(false)
         }
-    }, [isScaleUpOrDownPlusIconAddTaskBtn, showAddTaskPopup])
+    }, [showAddTaskPopup])
 
     const completedCallbackAddTaskPopupAnimation = useCallback((toTargetOrOrigin: boolean) => {
         // console.log(toTargetOrOrigin);
@@ -147,7 +152,7 @@ const HomeScreen = ({
                 {/* add task popup (absolute) */}
                 {
                     showAddTaskPopup &&
-                    <View pointerEvents='none' style={style.addTaskPopupAbsolute}>
+                    <View style={style.addTaskPopupAbsolute}>
                         <SimpleSharedElements
                             containerStyle={{ // // this must be the config for the visible view of this component
                                 height: '50%', // free to adjust
@@ -166,7 +171,7 @@ const HomeScreen = ({
 
                                         // optionals
 
-                                        backgroundColor: 'green',
+                                        backgroundColor: 'black',
                                     }}
                                 />
                             }
@@ -185,11 +190,12 @@ const HomeScreen = ({
                                     <Text style={{ color: 'white' }}>hehehe</Text>
                                     <Text style={{ color: 'white' }}>hehehe</Text>
                                     <Text style={{ color: 'white' }}>hehehe</Text>
+                                    <Button title='close' onPress={startCloseAddTaskPopup} />
                                 </View>
                             }
 
                             autoAnimateOnLayout={true}
-                            toTargetOrOrigin={!toTargetOrOriginAddTaskPopup}
+                            toTargetOrOrigin={toTargetOrOriginAddTaskPopup}
                             targetCachedMeasure={addTaskBtnCachedMeasure.current}
                             duration={ShowAddTaskPopupDuration}
                             isSpringOrTiming={false}
@@ -206,7 +212,7 @@ const HomeScreen = ({
                     {/* add task btn */}
                     <TouchableOpacity
                         activeOpacity={1}
-                        onPress={onPressAddTaskBtn}
+                        onPress={startShowAddTaskPopup}
                     >
                         <View
                             ref={addTaskBtnCachedMeasure.current.theRef}
