@@ -167,7 +167,7 @@ const HomeScreen = ({
 
                                         // optionals
 
-                                        backgroundColor: 'red',
+                                        backgroundColor: 'black',
                                     }}
                                 />
                             }
@@ -191,7 +191,7 @@ const HomeScreen = ({
 
                             toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
                             targetCachedMeasure={addTaskBtnCachedMeasure.current}
-                            duration={2000}
+                            // duration={2000}
                             isSpringOrTiming={true}
                             completedCallback={completedCallbackAddTaskPopupAnimation}
                             doAnimation={startAnimate}

@@ -121,20 +121,19 @@ const SimpleSharedElements = ({
         if (targetCachedMeasureResult && thisCachedMeasureResult)
             return
 
+        const [
+            _thisCachedMeasureResult,
+            _targetCachedMeasureResult
+        ] = await Promise.all([
+            thisCachedMeasure.current.GetOrMeasureAsync(),
+            targetCachedMeasure.GetOrMeasureAsync(),
+        ])
 
-        console.log(333, await thisCachedMeasure.current.GetOrMeasureAsync())
+        set_thisCachedMeasureResult(_thisCachedMeasureResult)
+        set_targetCachedMeasureResult(_targetCachedMeasureResult)
 
-        thisCachedMeasure.current.GetOrMessure((m) => {
-            set_thisCachedMeasureResult(m)
-
-            // console.log('thisCachedMeasure', m);
-        })
-
-        targetCachedMeasure.GetOrMessure((m) => {
-            set_targetCachedMeasureResult(m)
-
-            // console.log('targetCachedMeasure', m);
-        })
+        // console.log('thisCachedMeasure', _thisCachedMeasureResult);
+        // console.log('targetCachedMeasure', _targetCachedMeasureResult);
     }, [thisCachedMeasureResult, targetCachedMeasureResult])
 
     const startAnimate = (toTargetOrOrigin: boolean) => {
