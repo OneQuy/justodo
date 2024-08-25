@@ -30,6 +30,8 @@ const SimpleSharedElements = ({
 
     const [targetCachedMeassureResult, set_targetCachedMeassureResult] = useState<CachedMeassureResult | undefined>()
 
+    const inited = targetCachedMeassureResult !== undefined && thisCachedMeassureResult !== undefined
+
     const animatedScaleX = useRef(new Animated.Value(0)).current;
     const animatedScaleY = useRef(new Animated.Value(0)).current;
 
@@ -181,11 +183,12 @@ const SimpleSharedElements = ({
         doAnimation.current = startAnimate
 
     useEffect(() => {
-        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+        if (!inited)
             return
 
         startAnimate(toTargetOrOrigin)
     }, [toTargetOrOrigin]);
+
 
     return (
         <Animated.View
@@ -193,9 +196,10 @@ const SimpleSharedElements = ({
             ref={thisCachedMeassure.current.theRef}
             style={[
                 CommonStyles.justifyContentCenter_AlignItemsCenter,
+                { opacity: inited ? 1 : 0 },
                 containerStyle,
 
-                thisCachedMeassureResult && targetCachedMeassureResult ?
+                inited ?
                     {
                         transform: [
                             { translateX: animatedTranslateX },
@@ -209,7 +213,7 @@ const SimpleSharedElements = ({
                 style={[
                     CommonStyles.width100PercentHeight100Percent,
 
-                    thisCachedMeassureResult && targetCachedMeassureResult ?
+                    inited ?
                         {
                             transform: [
                                 { scaleX: animatedScaleX },
