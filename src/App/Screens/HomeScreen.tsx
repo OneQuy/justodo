@@ -151,7 +151,7 @@ const HomeScreen = ({
                     showAddTaskPopup &&
                     <View style={style.addTaskPopupAbsolute}>
                         <SimpleSharedElements
-                            containerStyle={{ // // this must be the config for the visible view of this component
+                            containerStyle={{ // this must be the config for the visible view of this component
                                 height: '50%', // free to adjust
                                 width: '100%', // free to adjust
 
@@ -160,27 +160,28 @@ const HomeScreen = ({
 
                             backgroundView={
                                 <View
-                                    style={{
+                                    style={[
                                         // must
-
-                                        height: '100%', // must 100%
-                                        width: '100%', // must 100%
+                                        CommonStyles.width100PercentHeight100Percent, // must 100%
 
                                         // optionals
-
-                                        backgroundColor: 'black',
-                                    }}
+                                        {
+                                            backgroundColor: 'black',
+                                        }
+                                    ]}
                                 />
                             }
 
-                            contentView={
+                            contentView={ // this maybe animated opacity
                                 <View
-                                    style={{
+                                    style={[
                                         // must
+                                        CommonStyles.width100PercentHeight100Percent, // must 100%
 
-                                        height: '100%', // must 100%
-                                        width: '100%', // must 100%
-                                    }}
+                                        // optionals
+                                        {
+                                        }
+                                    ]}
                                 >
                                     <Text style={{ color: 'white' }}>hehehe</Text>
                                     <Text style={{ color: 'white' }}>hehehe</Text>

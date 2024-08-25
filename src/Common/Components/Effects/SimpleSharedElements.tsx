@@ -265,3 +265,79 @@ const SimpleSharedElements = ({
 }
 
 export default SimpleSharedElements
+
+
+// const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
+// const [toTargetOrOriginAddTaskPopup, set_toTargetOrOriginAddTaskPopup] = useState(false)
+// const [isScaleUpOrDownPlusIconAddTaskBtn, set_isScaleUpOrDownPlusIconAddTaskBtn] = useState(true)
+
+// const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
+
+
+// addTaskPopupAbsolute: {
+//     position: 'absolute',
+//     width: '100%',
+//     height: '100%',
+//     justifyContent: 'flex-end',
+//     alignItems: 'center',
+//     paddingBottom: marginBottom,
+//     paddingHorizontal: Outline.Normal,
+//     // backgroundColor: 'red',
+// },
+
+// {/* add task popup (absolute) */ }
+// {
+//     showAddTaskPopup &&
+//         <View style={style.addTaskPopupAbsolute}>
+//             <SimpleSharedElements
+//                 containerStyle={{ // this must be the config for the visible view of this component
+//                     height: '50%', // free to adjust
+//                     width: '100%', // free to adjust
+
+//                     // backgroundColor: 'pink'
+//                 }}
+
+//                 backgroundView={
+//                     <View
+//                         style={[
+//                             // must
+//                             CommonStyles.width100PercentHeight100Percent, // must 100%
+
+//                             // optionals
+//                             {
+//                                 backgroundColor: 'black',
+//                             }
+//                         ]}
+//                     />
+//                 }
+
+//                 contentView={ // this maybe animated opacity
+//                     <View
+//                         style={[
+//                             // must
+//                             CommonStyles.width100PercentHeight100Percent, // must 100%
+
+//                             // optionals
+//                             {
+//                             }
+//                         ]}
+//                     >
+//                         <Text style={{ color: 'white' }}>hehehe</Text>
+//                         <Text style={{ color: 'white' }}>hehehe</Text>
+//                         <Text style={{ color: 'white' }}>hehehe</Text>
+//                         <Text style={{ color: 'white' }}>hehehe</Text>
+//                         <Text style={{ color: 'white' }}>hehehe</Text>
+//                         <Button title='close' onPress={startCloseAddTaskPopup} />
+//                     </View>
+//                 }
+
+//                 autoAnimateOnLayout={true}
+//                 toTargetOrOrigin={toTargetOrOriginAddTaskPopup}
+//                 targetCachedMeasure={addTaskBtnCachedMeasure.current}
+//                 duration={ShowAddTaskPopupDuration}
+//                 isSpringOrTiming={false}
+//                 completedCallback={completedCallbackAddTaskPopupAnimation}
+//                 doAnimation={startAnimate}
+//             />
+//         </View>
+// }
