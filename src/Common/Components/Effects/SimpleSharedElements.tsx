@@ -267,9 +267,7 @@ const SimpleSharedElements = ({
 export default SimpleSharedElements
 
 
-// const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
 // const [toTargetOrOriginAddTaskPopup, set_toTargetOrOriginAddTaskPopup] = useState(false)
-// const [isScaleUpOrDownPlusIconAddTaskBtn, set_isScaleUpOrDownPlusIconAddTaskBtn] = useState(true)
 
 // const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
 
