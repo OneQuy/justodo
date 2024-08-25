@@ -164,7 +164,7 @@ const HomeScreen = ({
 
                                         // optionals
 
-                                        backgroundColor: 'black',
+                                        backgroundColor: 'green',
                                     }}
                                 />
                             }
@@ -202,6 +202,7 @@ const HomeScreen = ({
                 >
                     {/* add task btn */}
                     <TouchableOpacity
+                        activeOpacity={1}
                         onPress={onPressAddTaskBtn}
                     >
                         <View
