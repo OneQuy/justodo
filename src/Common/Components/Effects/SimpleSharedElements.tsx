@@ -191,6 +191,7 @@ const SimpleSharedElements = ({
 
 
     return (
+        // translate XY view
         <Animated.View
             onLayout={onLayout}
             ref={thisCachedMeassure.current.theRef}
@@ -209,6 +210,7 @@ const SimpleSharedElements = ({
                     undefined,
             ]}
         >
+            {/* scale XY view */}
             <Animated.View
                 style={[
                     CommonStyles.width100PercentHeight100Percent,

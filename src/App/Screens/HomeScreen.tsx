@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
@@ -152,7 +152,7 @@ const HomeScreen = ({
                     // showAddTaskPopup &&
                     <View pointerEvents='none' style={style.addTaskPopupAbsolute}>
                         <SimpleSharedElements
-                            containerStyle={{
+                            containerStyle={{ // // this must be the config for the visible view of this component
                                 height: '50%', // free to adjust
                                 width: '100%', // free to adjust
 
@@ -162,9 +162,12 @@ const HomeScreen = ({
                             children={
                                 <View
                                     style={{
+                                        // must
+
                                         height: '100%', // must 100%
                                         width: '100%', // must 100%
 
+                                        // optionals
 
                                         backgroundColor: 'black',
                                         // opacity: 0.5,
@@ -173,7 +176,13 @@ const HomeScreen = ({
                                         // opacity: 0.5,
 
                                     }}
-                                />
+                                >
+                                    <Text style={{ color: 'white' }}>hehehe</Text>
+                                    <Text style={{ color: 'white' }}>hehehe</Text>
+                                    <Text style={{ color: 'white' }}>hehehe</Text>
+                                    <Text style={{ color: 'white' }}>hehehe</Text>
+                                    <Text style={{ color: 'white' }}>hehehe</Text>
+                                </View>
                             }
 
                             toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
