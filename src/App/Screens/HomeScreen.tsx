@@ -22,6 +22,7 @@ const HomeScreen = ({
     shouldShowPaywallFirstTime: boolean,
 }) => {
     const safeAreaInsets = useSafeAreaInsets()
+    const [enableInteraction, set_enableInteraction] = useState(true)
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
     const addTaskBtnCachedMeasure = useRef<CachedMeasure>(new CachedMeasure(true))
 
@@ -47,12 +48,14 @@ const HomeScreen = ({
     }
 
     const startCloseAddTaskPopup = useCallback(() => {
+        set_enableInteraction(false)
         set_toTargetOrOriginAddTaskPopup(true)
         set_isScaleUpOrDownPlusIconAddTaskBtn(true)
     }, [])
 
     const startShowAddTaskPopup = useCallback(() => {
         if (!showAddTaskPopup) { // not showed yet
+            set_enableInteraction(false)
             set_showAddTaskPopup(true)
             set_toTargetOrOriginAddTaskPopup(false)
             set_isScaleUpOrDownPlusIconAddTaskBtn(false)
@@ -62,6 +65,10 @@ const HomeScreen = ({
     const completedCallbackAddTaskPopupAnimation = useCallback((toTargetOrOrigin: boolean) => {
         if (toTargetOrOrigin) { // closed popup
             set_showAddTaskPopup(false)
+            set_enableInteraction(true)
+        }
+        else { // showing popup
+            set_enableInteraction(true)
         }
     }, [])
 
@@ -130,7 +137,7 @@ const HomeScreen = ({
     }, [marginBottom])
 
     return (
-        <View style={style.master}>
+        <View pointerEvents={enableInteraction ? 'auto' : 'none'} style={style.master}>
             {/* background */}
             <BackgroundNavigator />
 
