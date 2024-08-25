@@ -128,24 +128,7 @@ const HomeScreen = ({
                     }
                 </View>
 
-                {/* bottom bar */}
-                <View
-                    style={style.bottomBarView}
-                >
-                    {/* add task btn */}
-                    <TouchableOpacity
-                        onPress={() => set_addTaskPopupStateOpenOrClose(t => !t)}
-                    >
-                        <View
-                            ref={addTaskBtnCachedMeasure.current.theRef}
-                            style={style.addTaskBtn}
-                        >
-                            <LucideIcon name='Plus' color={'white'} />
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                {/* add task popup */}
+                {/* add task popup (absolute) */}
                 {
                     // showAddTaskPopup &&
                     <View pointerEvents='none' style={style.addTaskPopupAbsolute}>
@@ -198,6 +181,23 @@ const HomeScreen = ({
                         />
                     </View>
                 }
+
+                {/* bottom bar */}
+                <View
+                    style={style.bottomBarView}
+                >
+                    {/* add task btn */}
+                    <TouchableOpacity
+                        onPress={() => set_addTaskPopupStateOpenOrClose(t => !t)}
+                    >
+                        <View
+                            ref={addTaskBtnCachedMeasure.current.theRef}
+                            style={style.addTaskBtn}
+                        >
+                            <LucideIcon name='Plus' color={'white'} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )
