@@ -6,13 +6,11 @@ import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../Types'
 import { CloneObject, IsValuableArrayOrString, RandomInt } from '../../Common/UtilsTS'
 import { IsTaskPersistedDataEqual } from '../Handles/AppUtils'
 import { CommonStyles } from '../../Common/CommonConstants'
-import LucideIconTextEffectButton from '../../Common/Components/LucideIconTextEffectButton'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Outline } from '../Constants/Constants_Outline'
-import { IconSize } from '../Constants/Constants_Size'
-import { CachedMeassure } from '../../Common/PreservedMessure'
 import SimpleSharedElements from '../../Common/Components/Effects/SimpleSharedElements'
 import { LucideIcon } from '../../Common/Components/LucideIcon'
+import { CachedMeasure } from '../../Common/PreservedMessure'
 
 const HomeScreen = ({
     shouldShowPaywallFirstTime,
@@ -21,7 +19,7 @@ const HomeScreen = ({
 }) => {
     const safeAreaInsets = useSafeAreaInsets()
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
-    const addTaskBtnCachedMeassure = useRef<CachedMeassure>(new CachedMeassure(true))
+    const addTaskBtnCachedMeasure = useRef<CachedMeasure>(new CachedMeasure(true))
 
     const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
     const [addTaskPopupStateOpenOrClose, set_addTaskPopupStateOpenOrClose] = useState(false)
@@ -139,7 +137,7 @@ const HomeScreen = ({
                         onPress={() => set_addTaskPopupStateOpenOrClose(t => !t)}
                     >
                         <View
-                            ref={addTaskBtnCachedMeassure.current.theRef}
+                            ref={addTaskBtnCachedMeasure.current.theRef}
                             style={style.addTaskBtn}
                         >
                             <LucideIcon name='Plus' color={'white'} />
@@ -159,7 +157,7 @@ const HomeScreen = ({
                                 // backgroundColor: 'pink'
                             }}
 
-                            children={
+                            backgroundView={
                                 <View
                                     style={{
                                         // must
@@ -169,12 +167,18 @@ const HomeScreen = ({
 
                                         // optionals
 
-                                        backgroundColor: 'black',
-                                        // opacity: 0.5,
+                                        backgroundColor: 'red',
+                                    }}
+                                />
+                            }
 
-                                        // backgroundColor: 'green',
-                                        // opacity: 0.5,
+                            contentView={
+                                <View
+                                    style={{
+                                        // must
 
+                                        height: '100%', // must 100%
+                                        width: '100%', // must 100%
                                     }}
                                 >
                                     <Text style={{ color: 'white' }}>hehehe</Text>
@@ -186,8 +190,8 @@ const HomeScreen = ({
                             }
 
                             toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
-                            targetCachedMeassure={addTaskBtnCachedMeassure.current}
-                            duration={200}
+                            targetCachedMeasure={addTaskBtnCachedMeasure.current}
+                            duration={2000}
                             isSpringOrTiming={true}
                             completedCallback={completedCallbackAddTaskPopupAnimation}
                             doAnimation={startAnimate}

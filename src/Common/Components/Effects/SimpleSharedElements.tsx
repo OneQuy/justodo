@@ -2,13 +2,14 @@
 // Issues and resolutions: https://stackoverflow.com/questions/41831300/react-native-animations-translatex-and-translatey-while-scaling
 
 import React, { useRef, useEffect, useCallback, useState } from 'react';
-import { Animated, LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
+import { Animated, LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
 import { CommonStyles } from '../../CommonConstants';
-import { CachedMeassure, CachedMeassureResult } from '../../PreservedMessure';
+import { CachedMeasure, CachedMeasureResult } from '../../PreservedMessure';
 
 const SimpleSharedElements = ({
-    targetCachedMeassure,
-    children,
+    targetCachedMeasure,
+    contentView,
+    backgroundView,
     isSpringOrTiming = false,
     duration = 500,
     containerStyle,
@@ -16,8 +17,14 @@ const SimpleSharedElements = ({
     completedCallback,
     doAnimation,
 }: {
-    targetCachedMeassure: CachedMeassure,
-    children: React.JSX.Element,
+    targetCachedMeasure: CachedMeasure,
+
+    /**
+     * animated 'opacity'
+     */
+    contentView?: React.JSX.Element,
+
+    backgroundView?: React.JSX.Element,
     isSpringOrTiming?: boolean,
     duration?: number,
     toTargetOrOrigin?: boolean,
@@ -25,12 +32,14 @@ const SimpleSharedElements = ({
     completedCallback?: (toTargetOrOrigin: boolean) => void,
     doAnimation?: React.MutableRefObject<(toTargetOrOrigin: boolean) => void>,
 }) => {
-    const thisCachedMeassure = useRef<CachedMeassure>(new CachedMeassure(true))
-    const [thisCachedMeassureResult, set_thisCachedMeassureResult] = useState<CachedMeassureResult | undefined>()
+    const thisCachedMeasure = useRef<CachedMeasure>(new CachedMeasure(true))
+    const [thisCachedMeasureResult, set_thisCachedMeasureResult] = useState<CachedMeasureResult | undefined>()
 
-    const [targetCachedMeassureResult, set_targetCachedMeassureResult] = useState<CachedMeassureResult | undefined>()
+    const [targetCachedMeasureResult, set_targetCachedMeasureResult] = useState<CachedMeasureResult | undefined>()
 
-    const inited = targetCachedMeassureResult !== undefined && thisCachedMeassureResult !== undefined
+    const inited = targetCachedMeasureResult !== undefined && thisCachedMeasureResult !== undefined
+
+    const animatedOpacity = useRef(new Animated.Value(1)).current;
 
     const animatedScaleX = useRef(new Animated.Value(0)).current;
     const animatedScaleY = useRef(new Animated.Value(0)).current;
@@ -40,70 +49,55 @@ const SimpleSharedElements = ({
 
     // const animatedBorderRadius = useRef(new Animated.Value(0)).current;
 
-    // const [inited, set_inited] = useState(false)
-
-    // const getWidth = useCallback((targetOrOrigin: boolean): number => {
-    //     if (!targetCachedMeassureResult || !thisCachedMeassureResult)
-    //         throw new Error('[ne] SimpleSharedElements undefined messures.')
-
-    //     return targetOrOrigin ?
-    //         targetCachedMeassureResult.width :
-    //         thisCachedMeassureResult.width
-    // }, [targetCachedMeassureResult, thisCachedMeassureResult])
-
-    // const getHeight = useCallback((targetOrOrigin: boolean): number => {
-    //     if (!targetCachedMeassureResult || !thisCachedMeassureResult)
-    //         throw new Error('[ne] SimpleSharedElements undefined messures.')
-
-    //     return targetOrOrigin ?
-    //         targetCachedMeassureResult.height :
-    //         thisCachedMeassureResult.height
-    // }, [targetCachedMeassureResult, thisCachedMeassureResult])
+    const getOpacity = useCallback((targetOrOrigin: boolean): number => {
+        return targetOrOrigin ?
+            0 :
+            1
+    }, [targetCachedMeasureResult, thisCachedMeasureResult])
 
     const getScaleX = useCallback((targetOrOrigin: boolean): number => {
-        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+        if (!targetCachedMeasureResult || !thisCachedMeasureResult)
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
         return targetOrOrigin ?
-            targetCachedMeassureResult.width / thisCachedMeassureResult.width :
+            targetCachedMeasureResult.width / thisCachedMeasureResult.width :
             1
-    }, [targetCachedMeassureResult, thisCachedMeassureResult])
+    }, [targetCachedMeasureResult, thisCachedMeasureResult])
 
     const getScaleY = useCallback((targetOrOrigin: boolean): number => {
-        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+        if (!targetCachedMeasureResult || !thisCachedMeasureResult)
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
         return targetOrOrigin ?
-            targetCachedMeassureResult.height / thisCachedMeassureResult.height :
+            targetCachedMeasureResult.height / thisCachedMeasureResult.height :
             1
-    }, [targetCachedMeassureResult, thisCachedMeassureResult])
+    }, [targetCachedMeasureResult, thisCachedMeasureResult])
 
     const getTranslateX = useCallback((targetOrOrigin: boolean): number => {
-        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+        if (!targetCachedMeasureResult || !thisCachedMeasureResult)
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
         return targetOrOrigin ?
-            (targetCachedMeassureResult.px - thisCachedMeassureResult.px - (thisCachedMeassureResult.width / 2 - targetCachedMeassureResult.width / 2)) :
+            (targetCachedMeasureResult.px - thisCachedMeasureResult.px - (thisCachedMeasureResult.width / 2 - targetCachedMeasureResult.width / 2)) :
             // 0 :
             0
-    }, [targetCachedMeassureResult, thisCachedMeassureResult])
+    }, [targetCachedMeasureResult, thisCachedMeasureResult])
 
     const getTranslateY = useCallback((targetOrOrigin: boolean): number => {
-        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+        if (!targetCachedMeasureResult || !thisCachedMeasureResult)
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
         return targetOrOrigin ?
-            (targetCachedMeassureResult.py - thisCachedMeassureResult.py - (thisCachedMeassureResult.height / 2 - targetCachedMeassureResult.height / 2)) :
+            (targetCachedMeasureResult.py - thisCachedMeasureResult.py - (thisCachedMeasureResult.height / 2 - targetCachedMeasureResult.height / 2)) :
             // 0 : 
             0
-    }, [targetCachedMeassureResult, thisCachedMeassureResult, getScaleY])
+    }, [targetCachedMeasureResult, thisCachedMeasureResult, getScaleY])
 
     const setupStart = useCallback((startIsTargetOrOrigin: boolean) => {
-        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+        if (!targetCachedMeasureResult || !thisCachedMeasureResult)
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
-        // animatedHeight.setValue(getHeight(startIsTargetOrOrigin))
-        // animatedWidth.setValue(getWidth(startIsTargetOrOrigin))
+        animatedOpacity.setValue(getOpacity(startIsTargetOrOrigin))
 
         animatedScaleX.setValue(getScaleX(startIsTargetOrOrigin))
         animatedScaleY.setValue(getScaleY(startIsTargetOrOrigin))
@@ -111,11 +105,10 @@ const SimpleSharedElements = ({
         animatedTranslateX.setValue(getTranslateX(startIsTargetOrOrigin))
         animatedTranslateY.setValue(getTranslateY(startIsTargetOrOrigin))
     }, [
-        thisCachedMeassureResult,
-        targetCachedMeassureResult,
+        thisCachedMeasureResult,
+        targetCachedMeasureResult,
 
-        // getHeight,
-        // getWidth,
+        getOpacity,
 
         getScaleX,
         getScaleY,
@@ -124,22 +117,25 @@ const SimpleSharedElements = ({
         getTranslateY
     ])
 
-    const onLayout = useCallback((_: LayoutChangeEvent) => {
-        if (targetCachedMeassureResult && thisCachedMeassureResult)
+    const onLayout = useCallback(async (_: LayoutChangeEvent) => {
+        if (targetCachedMeasureResult && thisCachedMeasureResult)
             return
 
-        thisCachedMeassure.current.GetOrMessure((m) => {
-            set_thisCachedMeassureResult(m)
 
-            console.log('thisCachedMeassure', m);
+        console.log(333, await thisCachedMeasure.current.GetOrMeasureAsync())
+
+        thisCachedMeasure.current.GetOrMessure((m) => {
+            set_thisCachedMeasureResult(m)
+
+            // console.log('thisCachedMeasure', m);
         })
 
-        targetCachedMeassure.GetOrMessure((m) => {
-            set_targetCachedMeassureResult(m)
+        targetCachedMeasure.GetOrMessure((m) => {
+            set_targetCachedMeasureResult(m)
 
-            console.log('targetCachedMeassure', m);
+            // console.log('targetCachedMeasure', m);
         })
-    }, [thisCachedMeassureResult, targetCachedMeassureResult])
+    }, [thisCachedMeasureResult, targetCachedMeasureResult])
 
     const startAnimate = (toTargetOrOrigin: boolean) => {
         setupStart(!toTargetOrOrigin)
@@ -147,6 +143,12 @@ const SimpleSharedElements = ({
         // console.log(getScaleY(toTargetOrOrigin), getTranslateX(toTargetOrOrigin), getTranslateY(toTargetOrOrigin));
 
         Animated.parallel([
+            (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedOpacity, {
+                toValue: getOpacity(toTargetOrOrigin),
+                duration,
+                useNativeDriver: false,
+            }),
+
             (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedScaleX, {
                 toValue: getScaleX(toTargetOrOrigin),
                 duration,
@@ -194,7 +196,7 @@ const SimpleSharedElements = ({
         // translate XY view
         <Animated.View
             onLayout={onLayout}
-            ref={thisCachedMeassure.current.theRef}
+            ref={thisCachedMeasure.current.theRef}
             style={[
                 CommonStyles.justifyContentCenter_AlignItemsCenter,
                 { opacity: inited ? 1 : 0 },
@@ -225,7 +227,27 @@ const SimpleSharedElements = ({
                         undefined,
                 ]}
             >
-                {children}
+                {/* opacity view */}
+                <View
+                    style={[
+                        CommonStyles.width100PercentHeight100Percent,
+                    ]}
+                >
+                    {backgroundView}
+                </View>
+
+                {/* opacity view */}
+                <Animated.View
+                    style={[
+                        CommonStyles.width100PercentHeight100Percent,
+                        {
+                            position: 'absolute',
+                            opacity: animatedOpacity
+                        }
+                    ]}
+                >
+                    {contentView}
+                </Animated.View>
             </Animated.View>
         </Animated.View >
     )
