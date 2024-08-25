@@ -9,7 +9,7 @@ import { CachedMeassure, CachedMeassureResult } from '../../PreservedMessure';
 const SimpleSharedElements = ({
     targetCachedMeassure,
     children,
-    isSpringOrTiming = true,
+    isSpringOrTiming = false,
     duration = 500,
     containerStyle,
     toTargetOrOrigin = true,
@@ -145,36 +145,36 @@ const SimpleSharedElements = ({
         // console.log(getScaleY(toTargetOrOrigin), getTranslateX(toTargetOrOrigin), getTranslateY(toTargetOrOrigin));
 
         Animated.parallel([
-            Animated.timing(animatedScaleX, {
+            (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedScaleX, {
                 toValue: getScaleX(toTargetOrOrigin),
                 duration,
                 useNativeDriver: false,
             }),
 
-            Animated.timing(animatedScaleY, {
+            (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedScaleY, {
                 toValue: getScaleY(toTargetOrOrigin),
                 duration,
                 useNativeDriver: false,
             }),
 
-            Animated.timing(animatedTranslateX, {
+            (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedTranslateX, {
                 toValue: getTranslateX(toTargetOrOrigin),
                 duration,
                 useNativeDriver: false,
             }),
 
-            Animated.timing(animatedTranslateY, {
+            (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedTranslateY, {
                 toValue: getTranslateY(toTargetOrOrigin),
                 duration,
                 useNativeDriver: false,
             }),
 
-            // Animated.timing(animatedBorderRadius, {
+            // (!isSpringOrTiming ? Animated.timing : Animated.spring)(animatedBorderRadius, {
             //     toValue: toBorderRadius,
             //     duration,
             //     useNativeDriver: false,
             // }),
-        ]).start();
+        ]).start(() => completedCallback?.(toTargetOrOrigin));
     }
 
     if (doAnimation)

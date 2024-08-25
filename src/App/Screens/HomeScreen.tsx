@@ -43,6 +43,11 @@ const HomeScreen = ({
         set_taskRows(CloneObject(taskRows))
     }
 
+    const completedCallbackAddTaskPopupAnimation = useCallback((toTargetOrOrigin: boolean) => {
+        // console.log(toTargetOrOrigin);
+
+    }, [])
+
     const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData) => {
         for (let row of taskRows) {
             const idx = row.findIndex(t => IsTaskPersistedDataEqual(t, task.persistedData))
@@ -160,7 +165,7 @@ const HomeScreen = ({
                                         height: '100%', // must 100%
                                         width: '100%', // must 100%
 
-                                        
+
                                         backgroundColor: 'black',
                                         // opacity: 0.5,
 
@@ -173,7 +178,9 @@ const HomeScreen = ({
 
                             toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
                             targetCachedMeassure={addTaskBtnCachedMeassure.current}
-
+                            duration={200}
+                            isSpringOrTiming={true}
+                            completedCallback={completedCallbackAddTaskPopupAnimation}
                             doAnimation={startAnimate}
                         />
                     </View>
