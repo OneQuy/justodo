@@ -8,6 +8,7 @@ import { CachedMeasure, CachedMeasureResult } from '../../PreservedMessure';
 
 const SimpleSharedElements = ({
     targetCachedMeasure,
+    autoAnimateOnLayout,
     contentView,
     backgroundView,
     isSpringOrTiming = false,
@@ -25,6 +26,7 @@ const SimpleSharedElements = ({
     contentView?: React.JSX.Element,
 
     backgroundView?: React.JSX.Element,
+    autoAnimateOnLayout?: boolean,
     isSpringOrTiming?: boolean,
     duration?: number,
     toTargetOrOrigin?: boolean,
@@ -182,6 +184,16 @@ const SimpleSharedElements = ({
 
     if (doAnimation)
         doAnimation.current = startAnimate
+
+    // console.log('inited', inited);
+
+    useEffect(() => {
+        if (!inited)
+            return
+
+        if (autoAnimateOnLayout)
+            startAnimate(toTargetOrOrigin)
+    }, [inited]);
 
     useEffect(() => {
         if (!inited)

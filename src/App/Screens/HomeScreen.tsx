@@ -25,7 +25,7 @@ const HomeScreen = ({
     const addTaskBtnCachedMeasure = useRef<CachedMeasure>(new CachedMeasure(true))
 
     const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
-    const [addTaskPopupStateOpenOrClose, set_addTaskPopupStateOpenOrClose] = useState(false)
+    const [toTargetOrOriginAddTaskPopup, set_toTargetOrOriginAddTaskPopup] = useState(false)
     const [isScaleUpOrDownPlusIconAddTaskBtn, set_isScaleUpOrDownPlusIconAddTaskBtn] = useState(true)
 
     const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
@@ -46,18 +46,20 @@ const HomeScreen = ({
     }
 
     const onPressAddTaskBtn = useCallback(() => {
-        set_addTaskPopupStateOpenOrClose(t => !t)
-        set_isScaleUpOrDownPlusIconAddTaskBtn(t => !t)
-
-        // if (isScaleUpOrDownPlusIconAddTaskBtn)
-        //     set_isScaleUpOrDownPlusIconAddTaskBtn(false)
-    }, [isScaleUpOrDownPlusIconAddTaskBtn])
+        if (!showAddTaskPopup) { // not showed yet
+            set_showAddTaskPopup(true)
+            set_toTargetOrOriginAddTaskPopup(true)
+            set_isScaleUpOrDownPlusIconAddTaskBtn(false)
+        }
+    }, [isScaleUpOrDownPlusIconAddTaskBtn, showAddTaskPopup])
 
     const completedCallbackAddTaskPopupAnimation = useCallback((toTargetOrOrigin: boolean) => {
         // console.log(toTargetOrOrigin);
 
-        if (toTargetOrOrigin)
+        if (toTargetOrOrigin) { // closed popup
             set_isScaleUpOrDownPlusIconAddTaskBtn(true)
+            set_showAddTaskPopup(false)
+        }
     }, [])
 
     const actionRemoveTask = useCallback((task: TaskPersistedAndRuntimeData) => {
@@ -144,7 +146,7 @@ const HomeScreen = ({
 
                 {/* add task popup (absolute) */}
                 {
-                    // showAddTaskPopup &&
+                    showAddTaskPopup &&
                     <View pointerEvents='none' style={style.addTaskPopupAbsolute}>
                         <SimpleSharedElements
                             containerStyle={{ // // this must be the config for the visible view of this component
@@ -186,7 +188,8 @@ const HomeScreen = ({
                                 </View>
                             }
 
-                            toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
+                            autoAnimateOnLayout={true}
+                            toTargetOrOrigin={!toTargetOrOriginAddTaskPopup}
                             targetCachedMeasure={addTaskBtnCachedMeasure.current}
                             duration={ShowAddTaskPopupDuration}
                             isSpringOrTiming={false}
