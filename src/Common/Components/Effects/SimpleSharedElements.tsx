@@ -1,4 +1,5 @@
 // Created on 23 Aug 2024 (Justodo - Lumia)
+// Issues and resolutions: https://stackoverflow.com/questions/41831300/react-native-animations-translatex-and-translatey-while-scaling
 
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { Animated, LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
@@ -80,9 +81,8 @@ const SimpleSharedElements = ({
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
         return targetOrOrigin ?
-            // (thisCachedMeassureResult.width - targetCachedMeassureResult.width)  :
-            // (targetCachedMeassureResult.px - thisCachedMeassureResult.px) / 2 :
-            0 :
+            (targetCachedMeassureResult.px - thisCachedMeassureResult.px - (thisCachedMeassureResult.width / 2 - targetCachedMeassureResult.width / 2)) :
+            // 0 :
             0
     }, [targetCachedMeassureResult, thisCachedMeassureResult])
 
@@ -91,7 +91,8 @@ const SimpleSharedElements = ({
             throw new Error('[ne] SimpleSharedElements undefined messures.')
 
         return targetOrOrigin ?
-            (thisCachedMeassureResult.height + targetCachedMeassureResult.height) / 2 :
+            (targetCachedMeassureResult.py - thisCachedMeassureResult.py - (thisCachedMeassureResult.height / 2 - targetCachedMeassureResult.height / 2)) :
+            // 0 : 
             0
     }, [targetCachedMeassureResult, thisCachedMeassureResult, getScaleY])
 
@@ -179,8 +180,12 @@ const SimpleSharedElements = ({
     if (doAnimation)
         doAnimation.current = startAnimate
 
-    // useEffect(() => {
-    // }, []);
+    useEffect(() => {
+        if (!targetCachedMeassureResult || !thisCachedMeassureResult)
+            return
+
+        startAnimate(toTargetOrOrigin)
+    }, [toTargetOrOrigin]);
 
     return (
         <Animated.View
@@ -202,9 +207,7 @@ const SimpleSharedElements = ({
         >
             <Animated.View
                 style={[
-
                     CommonStyles.width100PercentHeight100Percent,
-                    // CommonStyles.justifyContentCenter_AlignItemsCenter,
 
                     thisCachedMeassureResult && targetCachedMeassureResult ?
                         {

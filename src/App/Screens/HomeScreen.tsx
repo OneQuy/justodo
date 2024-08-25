@@ -21,8 +21,10 @@ const HomeScreen = ({
 }) => {
     const safeAreaInsets = useSafeAreaInsets()
     const [taskRows, set_taskRows] = useState<TaskPersistedData[][]>([])
-    const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
     const addTaskBtnCachedMeassure = useRef<CachedMeassure>(new CachedMeassure(true))
+
+    const [showAddTaskPopup, set_showAddTaskPopup] = useState(false)
+    const [addTaskPopupStateOpenOrClose, set_addTaskPopupStateOpenOrClose] = useState(false)
 
     const startAnimate = useRef<(toTargetOrOrigin: boolean) => void>((s) => { })
 
@@ -60,6 +62,10 @@ const HomeScreen = ({
 
     // style
 
+    const marginBottom: number = useMemo(() => {
+        return safeAreaInsets.bottom > 0 ? safeAreaInsets.bottom : Outline.Normal
+    }, [safeAreaInsets])
+
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
@@ -73,7 +79,7 @@ const HomeScreen = ({
             bottomBarView: {
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
-                marginBottom: safeAreaInsets.bottom > 0 ? safeAreaInsets.bottom : Outline.Normal,
+                marginBottom,
                 marginHorizontal: Outline.Normal,
 
                 // backgroundColor: 'pink',
@@ -86,9 +92,20 @@ const HomeScreen = ({
                 minWidth: '17%',
                 justifyContent: 'center',
                 alignItems: 'center',
-            }
+            },
+
+            addTaskPopupAbsolute: {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                paddingBottom: marginBottom,
+                paddingHorizontal: Outline.Normal,
+                // backgroundColor: 'red',
+            },
         })
-    }, [safeAreaInsets])
+    }, [marginBottom])
 
     return (
         <View style={style.master}>
@@ -110,12 +127,14 @@ const HomeScreen = ({
 
                 {/* bottom bar */}
                 <View
-                    ref={addTaskBtnCachedMeassure.current.theRef}
                     style={style.bottomBarView}
                 >
                     {/* add task btn */}
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => set_addTaskPopupStateOpenOrClose(t => !t)}
+                    >
                         <View
+                            ref={addTaskBtnCachedMeassure.current.theRef}
                             style={style.addTaskBtn}
                         >
                             <LucideIcon name='Plus' color={'white'} />
@@ -123,30 +142,36 @@ const HomeScreen = ({
                     </TouchableOpacity>
                 </View>
 
+                {/* add task popup */}
                 {
-                    showAddTaskPopup &&
-                    <View pointerEvents='none' style={CommonStyles.width100Percent_Height100Percent_PositionAbsolute_JustifyContentCenter_AlignItemsCenter}>
+                    // showAddTaskPopup &&
+                    <View pointerEvents='none' style={style.addTaskPopupAbsolute}>
                         <SimpleSharedElements
                             containerStyle={{
-                                // flex: 1,
+                                height: '50%', // free to adjust
+                                width: '100%', // free to adjust
 
-                                height: 500,
-                                width: 300,
-
-                                backgroundColor: 'whitesmoke'
+                                // backgroundColor: 'pink'
                             }}
 
                             children={
                                 <View
                                     style={{
-                                        // flex: 1,
-                                        height: '100%',
-                                        width: '100%',
-                                        backgroundColor: 'green'
+                                        height: '100%', // must 100%
+                                        width: '100%', // must 100%
+
+                                        
+                                        backgroundColor: 'black',
+                                        // opacity: 0.5,
+
+                                        // backgroundColor: 'green',
+                                        // opacity: 0.5,
+
                                     }}
                                 />
                             }
 
+                            toTargetOrOrigin={!addTaskPopupStateOpenOrClose}
                             targetCachedMeassure={addTaskBtnCachedMeassure.current}
 
                             doAnimation={startAnimate}
