@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import BackgroundNavigator from './Background/BackgroundNavigator'
 import RowContainerView from '../Components/TaskView/RowContainerView'
 import { TaskPersistedAndRuntimeData, TaskPersistedData } from '../Types'
-import { CloneObject, IsValuableArrayOrString, RandomInt } from '../../Common/UtilsTS'
+import { CloneObject, HexToRgb, IsValuableArrayOrString, RandomInt } from '../../Common/UtilsTS'
 import { IsTaskPersistedDataEqual } from '../Handles/AppUtils'
 import { CommonStyles } from '../../Common/CommonConstants'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -132,7 +132,7 @@ const HomeScreen = ({
                 alignItems: 'center',
                 paddingBottom: marginBottom,
                 paddingHorizontal: Outline.Normal,
-                // backgroundColor: 'red',
+                backgroundColor: HexToRgb(Color_BG, 0.2),
             },
         })
     }, [marginBottom])
