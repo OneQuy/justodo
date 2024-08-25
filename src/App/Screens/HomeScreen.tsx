@@ -47,7 +47,7 @@ const HomeScreen = ({
 
     const startCloseAddTaskPopup = useCallback(() => {
         set_toTargetOrOriginAddTaskPopup(true)
-        set_isScaleUpOrDownPlusIconAddTaskBtn(false)
+        set_isScaleUpOrDownPlusIconAddTaskBtn(true)
     }, [])
 
     const startShowAddTaskPopup = useCallback(() => {
@@ -59,10 +59,7 @@ const HomeScreen = ({
     }, [showAddTaskPopup])
 
     const completedCallbackAddTaskPopupAnimation = useCallback((toTargetOrOrigin: boolean) => {
-        // console.log(toTargetOrOrigin);
-
         if (toTargetOrOrigin) { // closed popup
-            set_isScaleUpOrDownPlusIconAddTaskBtn(true)
             set_showAddTaskPopup(false)
         }
     }, [])
