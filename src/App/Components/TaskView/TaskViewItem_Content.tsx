@@ -5,6 +5,7 @@ import SlideInView from '../../../Common/Components/Effects/SlideInView'
 import LucideIconTextEffectButton from '../../../Common/Components/LucideIconTextEffectButton'
 import { IconSize } from '../../Constants/Constants_Size'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { FontBold, FontSize } from '../../Constants/Constants_FontSize'
 
 const TaskItemView_Content = ({
     isFirstRow,
@@ -58,6 +59,9 @@ const TaskItemView_Content = ({
             },
 
             taskNameTxt: {
+                // color: 'balck',
+                fontSize: FontSize.Medium,
+                fontWeight: FontBold.Bold,
             }
         })
     }, [isFirstRow, insets.top])
