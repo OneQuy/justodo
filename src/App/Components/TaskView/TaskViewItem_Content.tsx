@@ -87,8 +87,7 @@ const TaskItemView_Content = ({
                 {/* task name */}
 
                 <View style={style.taskNameView}>
-                    <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
-                    {/* <Text style={style.taskNameTxt}>{'Todo Task'}</Text> */}
+                    <Text numberOfLines={2} adjustsFontSizeToFit style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
                 </View>
             </View>
         </SlideInView>
