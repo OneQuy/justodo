@@ -6,6 +6,8 @@ import LucideIconTextEffectButton from '../../../Common/Components/LucideIconTex
 import { IconSize } from '../../Constants/Constants_Size'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FontBold, FontSize } from '../../Constants/Constants_FontSize'
+import TickTask from './TickTask'
+import { Gap } from '../../Constants/Constants_Outline'
 
 const TaskItemView_Content = ({
     isFirstRow,
@@ -52,6 +54,8 @@ const TaskItemView_Content = ({
 
             taskNameView: {
                 flex: 1,
+                gap: Gap.Normal,
+                flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
 
@@ -87,6 +91,7 @@ const TaskItemView_Content = ({
                 {/* task name */}
 
                 <View style={style.taskNameView}>
+                    <TickTask />
                     <Text numberOfLines={2} adjustsFontSizeToFit style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
                 </View>
             </View>
