@@ -52,6 +52,7 @@ const TaskItemView_Background = ({
             <ImageBackgroundOrView
                 source={{
                     // uri: undefined
+                    // uri: 'https://plus.unsplash.com/premium_photo-1667761634654-7fcf176434b8?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D'
                     uri: 'https://images.unsplash.com/photo-1724405143873-cdaa5cac918e?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw4OXx8fGVufDB8fHx8fA%3D%3D'
                 }}
                 style={style.imageBackgroundOrView}
