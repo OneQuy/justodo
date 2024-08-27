@@ -42,9 +42,22 @@ const TaskItemView_Content = ({
                 // height: '100%',
             },
 
+            topbarView: {
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                width: '100%',
+                // flex: 1,
+            },
+
+            taskNameView: {
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+
+                // backgroundColor: 'pink',
+            },
+
             taskNameTxt: {
-                // width: '100%',
-                // height: '100%',
             }
         })
     }, [isFirstRow, insets.top])
@@ -56,19 +69,23 @@ const TaskItemView_Content = ({
         >
             <View style={style.wrapView}>
                 {/* top menu */}
-                <LucideIconTextEffectButton
-                    selectedBackgroundColor={'#000000'}
-                    selectedColorOfTextAndIcon={'#ffffff'}
+                <View style={style.topbarView}>
+                    <LucideIconTextEffectButton
+                        selectedBackgroundColor={'#000000'}
+                        selectedColorOfTextAndIcon={'#ffffff'}
+                        iconProps={{ name: 'MoreHorizontal', size: IconSize.Normal }}
 
                     // style={style.addTaskBtn}
-                    onPress={startRemoveTask}
-                    iconProps={{ name: 'X', size: IconSize.Normal }}
-                />
+                    // onPress={startRemoveTask}
+                    />
+                </View>
 
                 {/* task name */}
 
-                <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
-                {/* <Text style={style.taskNameTxt}>{'Todo Task'}</Text> */}
+                <View style={style.taskNameView}>
+                    <Text style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
+                    {/* <Text style={style.taskNameTxt}>{'Todo Task'}</Text> */}
+                </View>
             </View>
         </SlideInView>
     )
