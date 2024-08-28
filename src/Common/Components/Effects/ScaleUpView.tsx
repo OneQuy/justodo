@@ -14,7 +14,7 @@ const ScaleUpView = ({
     isScaleUpOrDown = true,
     completedCallback,
 }: {
-    children: React.JSX.Element,
+    children: React.JSX.Element[] | React.JSX.Element,
     isSpringOrTiming?: boolean,
     disable?: boolean,
     duration?: number,

@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { FontBold, FontSize } from '../../Constants/Constants_FontSize'
 import TickTask from './TickTask'
 import { Gap } from '../../Constants/Constants_Outline'
+import ScaleUpView from '../../../Common/Components/Effects/ScaleUpView'
 
 const TaskItemView_Content = ({
     isFirstRow,
@@ -90,10 +91,10 @@ const TaskItemView_Content = ({
 
                 {/* task name & tick */}
 
-                <View style={style.taskNameView}>
+                <ScaleUpView containerStyle={style.taskNameView}>
                     <TickTask />
                     <Text numberOfLines={2} adjustsFontSizeToFit style={style.taskNameTxt}>{task.persistedData.uniqueTaskName}</Text>
-                </View>
+                </ScaleUpView>
             </View>
         </SlideInView>
     )
