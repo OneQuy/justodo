@@ -88,7 +88,7 @@ const TaskItemView_Content = ({
                     />
                 </View>
 
-                {/* task name */}
+                {/* task name & tick */}
 
                 <View style={style.taskNameView}>
                     <TickTask />
