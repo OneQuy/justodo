@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { TaskPersistedAndRuntimeData } from '../../Types'
 import SlideInView from '../../../Common/Components/Effects/SlideInView'
 import LucideIconTextEffectButton from '../../../Common/Components/LucideIconTextEffectButton'
@@ -22,6 +22,10 @@ const TaskItemView_Content = ({
     startRemoveTask: () => void,
 }) => {
     const insets = useSafeAreaInsets()
+
+    const onPressTickTask = useCallback(() => {
+        
+    }, [])
 
     // style
 
