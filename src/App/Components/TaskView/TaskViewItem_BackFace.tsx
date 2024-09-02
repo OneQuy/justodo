@@ -1,7 +1,18 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useMemo } from 'react'
+import { TaskPersistedAndRuntimeData } from '../../Types'
+import TaskViewItem_BackFace_StatItemView from './TaskViewItem_BackFace_StatItemView'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-const TaskViewItem_BackFace = () => {
+const TaskViewItem_BackFace = ({
+    isFirstRow,
+    task,
+}: {
+    isFirstRow: boolean,
+    task: TaskPersistedAndRuntimeData,
+}) => {
+    const insets = useSafeAreaInsets()
+
     // style
 
     const style = useMemo(() => {
@@ -11,16 +22,20 @@ const TaskViewItem_BackFace = () => {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
+                flexDirection: 'row',
+                paddingTop: isFirstRow ? insets.top : 0,
             },
 
             taskNameTxt: {
             }
         })
-    }, [])
+    }, [insets.top, isFirstRow])
 
     return (
         <View style={style.master}>
-            <Text>Back Face</Text>
+            <TaskViewItem_BackFace_StatItemView />
+            <TaskViewItem_BackFace_StatItemView />
+            <TaskViewItem_BackFace_StatItemView />
         </View>
     )
 }
