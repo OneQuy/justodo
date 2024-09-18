@@ -25,9 +25,6 @@ const TaskViewItem_BackFace = ({
                 flexDirection: 'row',
                 paddingTop: isFirstRow ? insets.top : 0,
             },
-
-            taskNameTxt: {
-            }
         })
     }, [insets.top, isFirstRow])
 

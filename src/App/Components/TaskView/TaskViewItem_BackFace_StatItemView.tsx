@@ -7,12 +7,14 @@ const TaskViewItem_BackFace_StatItemView = () => {
     const style = useMemo(() => {
         return StyleSheet.create({
             master: {
-                backgroundColor: "#aabbee",
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
+                height: '100%',
+                
                 // flexDirection: 'row'
-            },
+                backgroundColor: "#aabe",
+            },,
 
             taskNameTxt: {
             }
