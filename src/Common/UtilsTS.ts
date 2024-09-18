@@ -14,6 +14,7 @@ view, component utils
 animated
 object
 other utils
+error object
 */
 
 import { Alert, Platform, AlertButton, PermissionsAndroid, Linking, Image, Dimensions, Animated } from "react-native";
@@ -224,6 +225,11 @@ export function RGBToRGBAText(colorText: string, opacity: number): string {
 }
 
 // file / dir ---------------------------
+
+export function GetTempFileRLP(withTimestamp = false) {
+    if (withTimestamp) { return [TempDirName, 'temp_file_' + Date.now() + '.file'].join('/'); }
+    else { return [TempDirName, 'temp_file.file'].join('/'); }
+}
 
 export async function LoadJsonFromURLAsync(jsonURL: string) {
     try {
@@ -1334,6 +1340,12 @@ export function RemoveEmptyAndFalsyFromObject(obj: object) {
     return Object.fromEntries(
         Object.entries(obj).filter(([key, value]) => value !== null && value !== undefined && value !== '')
     );
+}
+
+// error object ---------------------------
+
+export function NotFoundErrorObject<T>(filepath: string) {
+    return new Error('Not found file: ' + filepath)
 }
 
 // other utils ---------------------------
